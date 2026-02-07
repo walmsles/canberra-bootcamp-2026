@@ -1,0 +1,648 @@
+type UserSettings @aws_iam @aws_cognito_user_pools {
+  userId: ID!
+  defaultReminderMinutes: Int
+  timezone: String
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type TodoList @aws_iam @aws_cognito_user_pools {
+  name: String!
+  description: String
+  groupId: ID
+  group: ListGroup
+  todos(filter: ModelTodoItemFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTodoItemConnection
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type TodoItem @aws_iam @aws_cognito_user_pools {
+  title: String!
+  description: String
+  status: TodoItemStatus
+  dueDate: AWSDateTime
+  completedAt: AWSDateTime
+  tags: [String]
+  reminderMinutes: Int
+  reminderSent: Boolean
+  listId: ID!
+  list: TodoList
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type ListGroup @aws_iam @aws_cognito_user_pools {
+  name: String!
+  description: String
+  memberIds: [String]
+  lists(filter: ModelTodoListFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTodoListConnection
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+type GroupInvitation @aws_iam @aws_cognito_user_pools {
+  groupId: ID!
+  groupName: String!
+  invitedEmail: String!
+  invitedUserId: ID
+  status: GroupInvitationStatus
+  invitedBy: ID!
+  id: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String
+}
+
+enum TodoItemStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETE
+}
+
+enum GroupInvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+input AmplifyAIConversationTurnErrorInput {
+  errorType: String!
+  message: String!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUserSettingsConnection @aws_iam @aws_cognito_user_pools {
+  items: [UserSettings]!
+  nextToken: String
+}
+
+input ModelUserSettingsFilterInput {
+  userId: ModelIDInput
+  defaultReminderMinutes: ModelIntInput
+  timezone: ModelStringInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelUserSettingsFilterInput]
+  or: [ModelUserSettingsFilterInput]
+  not: ModelUserSettingsFilterInput
+  owner: ModelStringInput
+}
+
+type Query {
+  getUserSettings(id: ID!): UserSettings @aws_iam @aws_cognito_user_pools
+  listUserSettings(filter: ModelUserSettingsFilterInput, limit: Int, nextToken: String): ModelUserSettingsConnection @aws_iam @aws_cognito_user_pools
+  getTodoList(id: ID!): TodoList @aws_iam @aws_cognito_user_pools
+  listTodoLists(filter: ModelTodoListFilterInput, limit: Int, nextToken: String): ModelTodoListConnection @aws_iam @aws_cognito_user_pools
+  listTodoListByGroupIdAndName(groupId: ID!, name: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelTodoListFilterInput, limit: Int, nextToken: String): ModelTodoListConnection @aws_iam @aws_cognito_user_pools
+  getTodoItem(id: ID!): TodoItem @aws_iam @aws_cognito_user_pools
+  listTodoItems(filter: ModelTodoItemFilterInput, limit: Int, nextToken: String): ModelTodoItemConnection @aws_iam @aws_cognito_user_pools
+  listTodoItemByStatusAndDueDate(status: TodoItemStatus!, dueDate: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelTodoItemFilterInput, limit: Int, nextToken: String): ModelTodoItemConnection @aws_iam @aws_cognito_user_pools
+  listTodoItemByListIdAndDueDate(listId: ID!, dueDate: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelTodoItemFilterInput, limit: Int, nextToken: String): ModelTodoItemConnection @aws_iam @aws_cognito_user_pools
+  getListGroup(id: ID!): ListGroup @aws_iam @aws_cognito_user_pools
+  listListGroups(filter: ModelListGroupFilterInput, limit: Int, nextToken: String): ModelListGroupConnection @aws_iam @aws_cognito_user_pools
+  getGroupInvitation(id: ID!): GroupInvitation @aws_iam @aws_cognito_user_pools
+  listGroupInvitations(filter: ModelGroupInvitationFilterInput, limit: Int, nextToken: String): ModelGroupInvitationConnection @aws_iam @aws_cognito_user_pools
+  listGroupInvitationByGroupId(groupId: ID!, sortDirection: ModelSortDirection, filter: ModelGroupInvitationFilterInput, limit: Int, nextToken: String): ModelGroupInvitationConnection @aws_iam @aws_cognito_user_pools
+  listGroupInvitationByInvitedEmail(invitedEmail: String!, sortDirection: ModelSortDirection, filter: ModelGroupInvitationFilterInput, limit: Int, nextToken: String): ModelGroupInvitationConnection @aws_iam @aws_cognito_user_pools
+}
+
+input ModelUserSettingsConditionInput {
+  userId: ModelIDInput
+  defaultReminderMinutes: ModelIntInput
+  timezone: ModelStringInput
+  and: [ModelUserSettingsConditionInput]
+  or: [ModelUserSettingsConditionInput]
+  not: ModelUserSettingsConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
+}
+
+input CreateUserSettingsInput {
+  userId: ID!
+  defaultReminderMinutes: Int
+  timezone: String
+  id: ID
+}
+
+input UpdateUserSettingsInput {
+  userId: ID
+  defaultReminderMinutes: Int
+  timezone: String
+  id: ID!
+}
+
+input DeleteUserSettingsInput {
+  id: ID!
+}
+
+type Mutation {
+  createUserSettings(input: CreateUserSettingsInput!, condition: ModelUserSettingsConditionInput): UserSettings @aws_iam @aws_cognito_user_pools
+  updateUserSettings(input: UpdateUserSettingsInput!, condition: ModelUserSettingsConditionInput): UserSettings @aws_iam @aws_cognito_user_pools
+  deleteUserSettings(input: DeleteUserSettingsInput!, condition: ModelUserSettingsConditionInput): UserSettings @aws_iam @aws_cognito_user_pools
+  createTodoList(input: CreateTodoListInput!, condition: ModelTodoListConditionInput): TodoList @aws_iam @aws_cognito_user_pools
+  updateTodoList(input: UpdateTodoListInput!, condition: ModelTodoListConditionInput): TodoList @aws_iam @aws_cognito_user_pools
+  deleteTodoList(input: DeleteTodoListInput!, condition: ModelTodoListConditionInput): TodoList @aws_iam @aws_cognito_user_pools
+  createTodoItem(input: CreateTodoItemInput!, condition: ModelTodoItemConditionInput): TodoItem @aws_iam @aws_cognito_user_pools
+  updateTodoItem(input: UpdateTodoItemInput!, condition: ModelTodoItemConditionInput): TodoItem @aws_iam @aws_cognito_user_pools
+  deleteTodoItem(input: DeleteTodoItemInput!, condition: ModelTodoItemConditionInput): TodoItem @aws_iam @aws_cognito_user_pools
+  createListGroup(input: CreateListGroupInput!, condition: ModelListGroupConditionInput): ListGroup @aws_iam @aws_cognito_user_pools
+  updateListGroup(input: UpdateListGroupInput!, condition: ModelListGroupConditionInput): ListGroup @aws_iam @aws_cognito_user_pools
+  deleteListGroup(input: DeleteListGroupInput!, condition: ModelListGroupConditionInput): ListGroup @aws_iam @aws_cognito_user_pools
+  createGroupInvitation(input: CreateGroupInvitationInput!, condition: ModelGroupInvitationConditionInput): GroupInvitation @aws_iam @aws_cognito_user_pools
+  updateGroupInvitation(input: UpdateGroupInvitationInput!, condition: ModelGroupInvitationConditionInput): GroupInvitation @aws_iam @aws_cognito_user_pools
+  deleteGroupInvitation(input: DeleteGroupInvitationInput!, condition: ModelGroupInvitationConditionInput): GroupInvitation @aws_iam @aws_cognito_user_pools
+}
+
+input ModelSubscriptionUserSettingsFilterInput {
+  userId: ModelSubscriptionIDInput
+  defaultReminderMinutes: ModelSubscriptionIntInput
+  timezone: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionUserSettingsFilterInput]
+  or: [ModelSubscriptionUserSettingsFilterInput]
+  owner: ModelStringInput
+}
+
+type Subscription {
+  onCreateUserSettings(filter: ModelSubscriptionUserSettingsFilterInput, owner: String): UserSettings @aws_subscribe(mutations: ["createUserSettings"]) @aws_iam @aws_cognito_user_pools
+  onUpdateUserSettings(filter: ModelSubscriptionUserSettingsFilterInput, owner: String): UserSettings @aws_subscribe(mutations: ["updateUserSettings"]) @aws_iam @aws_cognito_user_pools
+  onDeleteUserSettings(filter: ModelSubscriptionUserSettingsFilterInput, owner: String): UserSettings @aws_subscribe(mutations: ["deleteUserSettings"]) @aws_iam @aws_cognito_user_pools
+  onCreateTodoList(filter: ModelSubscriptionTodoListFilterInput, owner: String): TodoList @aws_subscribe(mutations: ["createTodoList"]) @aws_iam @aws_cognito_user_pools
+  onUpdateTodoList(filter: ModelSubscriptionTodoListFilterInput, owner: String): TodoList @aws_subscribe(mutations: ["updateTodoList"]) @aws_iam @aws_cognito_user_pools
+  onDeleteTodoList(filter: ModelSubscriptionTodoListFilterInput, owner: String): TodoList @aws_subscribe(mutations: ["deleteTodoList"]) @aws_iam @aws_cognito_user_pools
+  onCreateTodoItem(filter: ModelSubscriptionTodoItemFilterInput, owner: String): TodoItem @aws_subscribe(mutations: ["createTodoItem"]) @aws_iam @aws_cognito_user_pools
+  onUpdateTodoItem(filter: ModelSubscriptionTodoItemFilterInput, owner: String): TodoItem @aws_subscribe(mutations: ["updateTodoItem"]) @aws_iam @aws_cognito_user_pools
+  onDeleteTodoItem(filter: ModelSubscriptionTodoItemFilterInput, owner: String): TodoItem @aws_subscribe(mutations: ["deleteTodoItem"]) @aws_iam @aws_cognito_user_pools
+  onCreateListGroup(filter: ModelSubscriptionListGroupFilterInput, owner: String): ListGroup @aws_subscribe(mutations: ["createListGroup"]) @aws_iam @aws_cognito_user_pools
+  onUpdateListGroup(filter: ModelSubscriptionListGroupFilterInput, owner: String): ListGroup @aws_subscribe(mutations: ["updateListGroup"]) @aws_iam @aws_cognito_user_pools
+  onDeleteListGroup(filter: ModelSubscriptionListGroupFilterInput, owner: String): ListGroup @aws_subscribe(mutations: ["deleteListGroup"]) @aws_iam @aws_cognito_user_pools
+  onCreateGroupInvitation(filter: ModelSubscriptionGroupInvitationFilterInput, owner: String): GroupInvitation @aws_subscribe(mutations: ["createGroupInvitation"]) @aws_iam @aws_cognito_user_pools
+  onUpdateGroupInvitation(filter: ModelSubscriptionGroupInvitationFilterInput, owner: String): GroupInvitation @aws_subscribe(mutations: ["updateGroupInvitation"]) @aws_iam @aws_cognito_user_pools
+  onDeleteGroupInvitation(filter: ModelSubscriptionGroupInvitationFilterInput, owner: String): GroupInvitation @aws_subscribe(mutations: ["deleteGroupInvitation"]) @aws_iam @aws_cognito_user_pools
+}
+
+type ModelTodoListConnection @aws_iam @aws_cognito_user_pools {
+  items: [TodoList]!
+  nextToken: String
+}
+
+input ModelTodoListFilterInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  groupId: ModelIDInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelTodoListFilterInput]
+  or: [ModelTodoListFilterInput]
+  not: ModelTodoListFilterInput
+  owner: ModelStringInput
+}
+
+input ModelTodoListConditionInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  groupId: ModelIDInput
+  and: [ModelTodoListConditionInput]
+  or: [ModelTodoListConditionInput]
+  not: ModelTodoListConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
+}
+
+input CreateTodoListInput {
+  name: String!
+  description: String
+  groupId: ID
+  id: ID
+}
+
+input UpdateTodoListInput {
+  name: String
+  description: String
+  groupId: ID
+  id: ID!
+}
+
+input DeleteTodoListInput {
+  id: ID!
+}
+
+input ModelSubscriptionTodoListFilterInput {
+  name: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  groupId: ModelSubscriptionIDInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionTodoListFilterInput]
+  or: [ModelSubscriptionTodoListFilterInput]
+  owner: ModelStringInput
+}
+
+type ModelTodoItemConnection @aws_iam @aws_cognito_user_pools {
+  items: [TodoItem]!
+  nextToken: String
+}
+
+input ModelTodoItemStatusInput {
+  eq: TodoItemStatus
+  ne: TodoItemStatus
+}
+
+input ModelTodoItemFilterInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  status: ModelTodoItemStatusInput
+  dueDate: ModelStringInput
+  completedAt: ModelStringInput
+  tags: ModelStringInput
+  reminderMinutes: ModelIntInput
+  reminderSent: ModelBooleanInput
+  listId: ModelIDInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelTodoItemFilterInput]
+  or: [ModelTodoItemFilterInput]
+  not: ModelTodoItemFilterInput
+  owner: ModelStringInput
+}
+
+input ModelTodoItemConditionInput {
+  title: ModelStringInput
+  description: ModelStringInput
+  status: ModelTodoItemStatusInput
+  dueDate: ModelStringInput
+  completedAt: ModelStringInput
+  tags: ModelStringInput
+  reminderMinutes: ModelIntInput
+  reminderSent: ModelBooleanInput
+  listId: ModelIDInput
+  and: [ModelTodoItemConditionInput]
+  or: [ModelTodoItemConditionInput]
+  not: ModelTodoItemConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
+}
+
+input CreateTodoItemInput {
+  title: String!
+  description: String
+  status: TodoItemStatus
+  dueDate: AWSDateTime
+  completedAt: AWSDateTime
+  tags: [String]
+  reminderMinutes: Int
+  reminderSent: Boolean
+  listId: ID!
+  id: ID
+}
+
+input UpdateTodoItemInput {
+  title: String
+  description: String
+  status: TodoItemStatus
+  dueDate: AWSDateTime
+  completedAt: AWSDateTime
+  tags: [String]
+  reminderMinutes: Int
+  reminderSent: Boolean
+  listId: ID
+  id: ID!
+}
+
+input DeleteTodoItemInput {
+  id: ID!
+}
+
+input ModelSubscriptionTodoItemFilterInput {
+  title: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  status: ModelSubscriptionStringInput
+  dueDate: ModelSubscriptionStringInput
+  completedAt: ModelSubscriptionStringInput
+  tags: ModelSubscriptionStringInput
+  reminderMinutes: ModelSubscriptionIntInput
+  reminderSent: ModelSubscriptionBooleanInput
+  listId: ModelSubscriptionIDInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionTodoItemFilterInput]
+  or: [ModelSubscriptionTodoItemFilterInput]
+  owner: ModelStringInput
+}
+
+type ModelListGroupConnection @aws_iam @aws_cognito_user_pools {
+  items: [ListGroup]!
+  nextToken: String
+}
+
+input ModelListGroupFilterInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  memberIds: ModelStringInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelListGroupFilterInput]
+  or: [ModelListGroupFilterInput]
+  not: ModelListGroupFilterInput
+  owner: ModelStringInput
+}
+
+input ModelListGroupConditionInput {
+  name: ModelStringInput
+  description: ModelStringInput
+  memberIds: ModelStringInput
+  and: [ModelListGroupConditionInput]
+  or: [ModelListGroupConditionInput]
+  not: ModelListGroupConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
+}
+
+input CreateListGroupInput {
+  name: String!
+  description: String
+  memberIds: [String]
+  id: ID
+}
+
+input UpdateListGroupInput {
+  name: String
+  description: String
+  memberIds: [String]
+  id: ID!
+}
+
+input DeleteListGroupInput {
+  id: ID!
+}
+
+input ModelSubscriptionListGroupFilterInput {
+  name: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  memberIds: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionListGroupFilterInput]
+  or: [ModelSubscriptionListGroupFilterInput]
+  owner: ModelStringInput
+}
+
+type ModelGroupInvitationConnection @aws_iam @aws_cognito_user_pools {
+  items: [GroupInvitation]!
+  nextToken: String
+}
+
+input ModelGroupInvitationStatusInput {
+  eq: GroupInvitationStatus
+  ne: GroupInvitationStatus
+}
+
+input ModelGroupInvitationFilterInput {
+  groupId: ModelIDInput
+  groupName: ModelStringInput
+  invitedEmail: ModelStringInput
+  invitedUserId: ModelIDInput
+  status: ModelGroupInvitationStatusInput
+  invitedBy: ModelIDInput
+  id: ModelIDInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  and: [ModelGroupInvitationFilterInput]
+  or: [ModelGroupInvitationFilterInput]
+  not: ModelGroupInvitationFilterInput
+  owner: ModelStringInput
+}
+
+input ModelGroupInvitationConditionInput {
+  groupId: ModelIDInput
+  groupName: ModelStringInput
+  invitedEmail: ModelStringInput
+  invitedUserId: ModelIDInput
+  status: ModelGroupInvitationStatusInput
+  invitedBy: ModelIDInput
+  and: [ModelGroupInvitationConditionInput]
+  or: [ModelGroupInvitationConditionInput]
+  not: ModelGroupInvitationConditionInput
+  createdAt: ModelStringInput
+  updatedAt: ModelStringInput
+  owner: ModelStringInput
+}
+
+input CreateGroupInvitationInput {
+  groupId: ID!
+  groupName: String!
+  invitedEmail: String!
+  invitedUserId: ID
+  status: GroupInvitationStatus
+  invitedBy: ID!
+  id: ID
+}
+
+input UpdateGroupInvitationInput {
+  groupId: ID
+  groupName: String
+  invitedEmail: String
+  invitedUserId: ID
+  status: GroupInvitationStatus
+  invitedBy: ID
+  id: ID!
+}
+
+input DeleteGroupInvitationInput {
+  id: ID!
+}
+
+input ModelSubscriptionGroupInvitationFilterInput {
+  groupId: ModelSubscriptionIDInput
+  groupName: ModelSubscriptionStringInput
+  invitedEmail: ModelSubscriptionStringInput
+  invitedUserId: ModelSubscriptionIDInput
+  status: ModelSubscriptionStringInput
+  invitedBy: ModelSubscriptionIDInput
+  id: ModelSubscriptionIDInput
+  createdAt: ModelSubscriptionStringInput
+  updatedAt: ModelSubscriptionStringInput
+  and: [ModelSubscriptionGroupInvitationFilterInput]
+  or: [ModelSubscriptionGroupInvitationFilterInput]
+  owner: ModelStringInput
+}
+
+input ModelStringKeyConditionInput {
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: [String]
+  beginsWith: String
+}

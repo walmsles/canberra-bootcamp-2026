@@ -1,0 +1,2506 @@
+{
+ "Parameters": {
+  "DynamoDBModelTableReadIOPS": {
+   "Type": "Number",
+   "Default": 5,
+   "Description": "The number of read IOPS the table should support."
+  },
+  "DynamoDBModelTableWriteIOPS": {
+   "Type": "Number",
+   "Default": 5,
+   "Description": "The number of write IOPS the table should support."
+  },
+  "DynamoDBBillingMode": {
+   "Type": "String",
+   "Default": "PAY_PER_REQUEST",
+   "AllowedValues": [
+    "PAY_PER_REQUEST",
+    "PROVISIONED"
+   ],
+   "Description": "Configure @model types to create DynamoDB tables with PAY_PER_REQUEST or PROVISIONED billing modes."
+  },
+  "DynamoDBEnablePointInTimeRecovery": {
+   "Type": "String",
+   "Default": "false",
+   "AllowedValues": [
+    "true",
+    "false"
+   ],
+   "Description": "Whether to enable Point in Time Recovery on the table."
+  },
+  "DynamoDBEnableServerSideEncryption": {
+   "Type": "String",
+   "Default": "true",
+   "AllowedValues": [
+    "true",
+    "false"
+   ],
+   "Description": "Enable server side encryption powered by KMS."
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource22E8EE2DOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerTableManagerCus455B4A66": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref": {
+   "Type": "String"
+  }
+ },
+ "Conditions": {
+  "HasEnvironmentParameter": {
+   "Fn::Not": [
+    {
+     "Fn::Equals": [
+      "NONE",
+      "NONE"
+     ]
+    }
+   ]
+  },
+  "ShouldUsePayPerRequestBilling": {
+   "Fn::Equals": [
+    {
+     "Ref": "DynamoDBBillingMode"
+    },
+    "PAY_PER_REQUEST"
+   ]
+  },
+  "ShouldUsePointInTimeRecovery": {
+   "Fn::Equals": [
+    {
+     "Ref": "DynamoDBEnablePointInTimeRecovery"
+    },
+    "true"
+   ]
+  },
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Resources": {
+  "GroupInvitationTable": {
+   "Type": "Custom::AmplifyDynamoDBTable",
+   "Properties": {
+    "ServiceToken": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource22E8EE2DOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerTableManagerCus455B4A66"
+    },
+    "tableName": {
+     "Fn::Join": [
+      "",
+      [
+       "GroupInvitation-",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "-NONE"
+      ]
+     ]
+    },
+    "attributeDefinitions": [
+     {
+      "attributeName": "id",
+      "attributeType": "S"
+     },
+     {
+      "attributeName": "groupId",
+      "attributeType": "S"
+     },
+     {
+      "attributeName": "invitedEmail",
+      "attributeType": "S"
+     }
+    ],
+    "keySchema": [
+     {
+      "attributeName": "id",
+      "keyType": "HASH"
+     }
+    ],
+    "globalSecondaryIndexes": [
+     {
+      "indexName": "byGroup",
+      "keySchema": [
+       {
+        "attributeName": "groupId",
+        "keyType": "HASH"
+       }
+      ],
+      "projection": {
+       "projectionType": "ALL"
+      },
+      "provisionedThroughput": {
+       "Fn::If": [
+        "ShouldUsePayPerRequestBilling",
+        {
+         "Ref": "AWS::NoValue"
+        },
+        {
+         "ReadCapacityUnits": {
+          "Ref": "DynamoDBModelTableReadIOPS"
+         },
+         "WriteCapacityUnits": {
+          "Ref": "DynamoDBModelTableWriteIOPS"
+         }
+        }
+       ]
+      }
+     },
+     {
+      "indexName": "byEmail",
+      "keySchema": [
+       {
+        "attributeName": "invitedEmail",
+        "keyType": "HASH"
+       }
+      ],
+      "projection": {
+       "projectionType": "ALL"
+      },
+      "provisionedThroughput": {
+       "Fn::If": [
+        "ShouldUsePayPerRequestBilling",
+        {
+         "Ref": "AWS::NoValue"
+        },
+        {
+         "ReadCapacityUnits": {
+          "Ref": "DynamoDBModelTableReadIOPS"
+         },
+         "WriteCapacityUnits": {
+          "Ref": "DynamoDBModelTableWriteIOPS"
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "provisionedThroughput": {
+     "Fn::If": [
+      "ShouldUsePayPerRequestBilling",
+      {
+       "Ref": "AWS::NoValue"
+      },
+      {
+       "ReadCapacityUnits": {
+        "Ref": "DynamoDBModelTableReadIOPS"
+       },
+       "WriteCapacityUnits": {
+        "Ref": "DynamoDBModelTableWriteIOPS"
+       }
+      }
+     ]
+    },
+    "sseSpecification": {
+     "sseEnabled": false
+    },
+    "streamSpecification": {
+     "streamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "deletionProtectionEnabled": false,
+    "allowDestructiveGraphqlSchemaUpdates": true,
+    "replaceTableUponGsiUpdate": true,
+    "pointInTimeRecoverySpecification": {
+     "Fn::If": [
+      "ShouldUsePointInTimeRecovery",
+      {
+       "PointInTimeRecoveryEnabled": true
+      },
+      {
+       "Ref": "AWS::NoValue"
+      }
+     ]
+    },
+    "billingMode": {
+     "Fn::If": [
+      "ShouldUsePayPerRequestBilling",
+      "PAY_PER_REQUEST",
+      {
+       "Ref": "AWS::NoValue"
+      }
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/GroupInvitationTable/Default/Default"
+   }
+  },
+  "GroupInvitationIAMRoleD1E79E31": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:GetItem",
+          "dynamodb:Scan",
+          "dynamodb:Query",
+          "dynamodb:UpdateItem",
+          "dynamodb:ConditionCheckItem",
+          "dynamodb:DescribeTable",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          {
+           "Fn::Sub": [
+            "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
+            {
+             "tablename": {
+              "Fn::Join": [
+               "",
+               [
+                "GroupInvitation-",
+                {
+                 "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+                },
+                "-NONE"
+               ]
+              ]
+             }
+            }
+           ]
+          },
+          {
+           "Fn::Sub": [
+            "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
+            {
+             "tablename": {
+              "Fn::Join": [
+               "",
+               [
+                "GroupInvitation-",
+                {
+                 "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+                },
+                "-NONE"
+               ]
+              ]
+             }
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "DynamoDBAccess"
+     }
+    ],
+    "RoleName": {
+     "Fn::Join": [
+      "",
+      [
+       "GroupInvitationIAMRo190daf-",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "-NONE"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "amplifyData"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/GroupInvitationIAMRole/Resource"
+   }
+  },
+  "GroupInvitationDataSource": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": {
+      "Ref": "AWS::Region"
+     },
+     "TableName": {
+      "Fn::Select": [
+       1,
+       {
+        "Fn::Split": [
+         "/",
+         {
+          "Fn::Select": [
+           5,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "GroupInvitationTable",
+               "TableArn"
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "Name": "GroupInvitationTable",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "GroupInvitationIAMRoleD1E79E31",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "DependsOn": [
+    "GroupInvitationIAMRoleD1E79E31"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/GroupInvitationDataSource/Resource"
+   }
+  },
+  "QuerygetGroupInvitationauth0FunctionQuerygetGroupInvitationauth0FunctionAppSyncFunctionD1650240": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerygetGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerygetGroupInvitationauth0Function/QuerygetGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerygetGroupInvitationpostAuth0FunctionQuerygetGroupInvitationpostAuth0FunctionAppSyncFunction80A2C80F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerygetGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerygetGroupInvitationpostAuth0Function/QuerygetGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryGetGroupInvitationDataResolverFnQueryGetGroupInvitationDataResolverFnAppSyncFunction4CCFBC4B": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryGetGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/08f4d557693d96c1a4efba0f9dc91330e4b19772fd5477c156468843e3d9cb5e.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4c6a2d29f01c6091bd1d9afe16e5849d456c96f17c3b215938c8067399532719.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QueryGetGroupInvitationDataResolverFn/QueryGetGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "GetGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "getGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerygetGroupInvitationauth0FunctionQuerygetGroupInvitationauth0FunctionAppSyncFunctionD1650240",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerygetGroupInvitationpostAuth0FunctionQuerygetGroupInvitationpostAuth0FunctionAppSyncFunction80A2C80F",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryGetGroupInvitationDataResolverFnQueryGetGroupInvitationDataResolverFnAppSyncFunction4CCFBC4B",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"getGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/queryGetGroupInvitationResolver"
+   }
+  },
+  "QuerylistGroupInvitationsauth0FunctionQuerylistGroupInvitationsauth0FunctionAppSyncFunction3DCF427C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationsauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationsauth0Function/QuerylistGroupInvitationsauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerylistGroupInvitationspostAuth0FunctionQuerylistGroupInvitationspostAuth0FunctionAppSyncFunction09E3253D": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationspostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationspostAuth0Function/QuerylistGroupInvitationspostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryListGroupInvitationsDataResolverFnQueryListGroupInvitationsDataResolverFnAppSyncFunction9AC861DD": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryListGroupInvitationsDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9fcbe070ecd3023c5bf5b966fa9584757db9762eef123bad0820bd87591b2174.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cc01911d0269d4080ea57505dc445dfc315ef7ad85d3d9d4ea1357858bff451d.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QueryListGroupInvitationsDataResolverFn/QueryListGroupInvitationsDataResolverFn.AppSyncFunction"
+   }
+  },
+  "ListGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "listGroupInvitations",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationsauth0FunctionQuerylistGroupInvitationsauth0FunctionAppSyncFunction3DCF427C",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationspostAuth0FunctionQuerylistGroupInvitationspostAuth0FunctionAppSyncFunction09E3253D",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryListGroupInvitationsDataResolverFnQueryListGroupInvitationsDataResolverFnAppSyncFunction9AC861DD",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"listGroupInvitations\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/queryListGroupInvitationsResolver"
+   }
+  },
+  "MutationcreateGroupInvitationinit0FunctionMutationcreateGroupInvitationinit0FunctionAppSyncFunction7341CC14": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateGroupInvitationinit0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationcreateGroupInvitationinit0Function/MutationcreateGroupInvitationinit0Function.AppSyncFunction"
+   }
+  },
+  "MutationcreateGroupInvitationauth0FunctionMutationcreateGroupInvitationauth0FunctionAppSyncFunctionB0F28E8F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bb0463ccbafff4a0f912ca18161d06da66418a20a284704694081f2a51d5ecdb.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationcreateGroupInvitationauth0Function/MutationcreateGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationcreateGroupInvitationpostAuth0FunctionMutationcreateGroupInvitationpostAuth0FunctionAppSyncFunctionEC8E0FF0": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationcreateGroupInvitationpostAuth0Function/MutationcreateGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationCreateGroupInvitationDataResolverFnMutationCreateGroupInvitationDataResolverFnAppSyncFunction96809AD6": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationCreateGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/275e650880bc7bf4829c070d77f3989684d519b813babeda53b9c89316500d4a.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationCreateGroupInvitationDataResolverFn/MutationCreateGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "CreateGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "createGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationcreateGroupInvitationinit0FunctionMutationcreateGroupInvitationinit0FunctionAppSyncFunction7341CC14",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateGroupInvitationauth0FunctionMutationcreateGroupInvitationauth0FunctionAppSyncFunctionB0F28E8F",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateGroupInvitationpostAuth0FunctionMutationcreateGroupInvitationpostAuth0FunctionAppSyncFunctionEC8E0FF0",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationCreateGroupInvitationDataResolverFnMutationCreateGroupInvitationDataResolverFnAppSyncFunction96809AD6",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"createGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/mutationCreateGroupInvitationResolver"
+   }
+  },
+  "MutationupdateGroupInvitationinit0FunctionMutationupdateGroupInvitationinit0FunctionAppSyncFunction5FDB1DB4": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateGroupInvitationinit0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationupdateGroupInvitationinit0Function/MutationupdateGroupInvitationinit0Function.AppSyncFunction"
+   }
+  },
+  "MutationupdateGroupInvitationauth0FunctionMutationupdateGroupInvitationauth0FunctionAppSyncFunction03DBE37C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/af669db3d0467503dbdb4805641b8a3ff1f09824210da1d7b3aa7fd14e7b6dd0.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationupdateGroupInvitationauth0Function/MutationupdateGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationupdateGroupInvitationpostAuth0FunctionMutationupdateGroupInvitationpostAuth0FunctionAppSyncFunction23511B76": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationupdateGroupInvitationpostAuth0Function/MutationupdateGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationUpdateGroupInvitationDataResolverFnMutationUpdateGroupInvitationDataResolverFnAppSyncFunction13CD0A58": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationUpdateGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/474bf0776ec2164a13191d1a0a9e057154931e4918fea5086f49850d02a5371b.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationUpdateGroupInvitationDataResolverFn/MutationUpdateGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "UpdateGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "updateGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationupdateGroupInvitationinit0FunctionMutationupdateGroupInvitationinit0FunctionAppSyncFunction5FDB1DB4",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationupdateGroupInvitationauth0FunctionMutationupdateGroupInvitationauth0FunctionAppSyncFunction03DBE37C",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationupdateGroupInvitationpostAuth0FunctionMutationupdateGroupInvitationpostAuth0FunctionAppSyncFunction23511B76",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationUpdateGroupInvitationDataResolverFnMutationUpdateGroupInvitationDataResolverFnAppSyncFunction13CD0A58",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"updateGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/mutationUpdateGroupInvitationResolver"
+   }
+  },
+  "MutationdeleteGroupInvitationauth0FunctionMutationdeleteGroupInvitationauth0FunctionAppSyncFunctionF7BA02DC": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationdeleteGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2a02b1ccf11f0cd986653cd1d41c66b0e18879c41b1d9b7f6e906ef3316898bc.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationdeleteGroupInvitationauth0Function/MutationdeleteGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationdeleteGroupInvitationpostAuth0FunctionMutationdeleteGroupInvitationpostAuth0FunctionAppSyncFunction9DEB60DB": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationdeleteGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationdeleteGroupInvitationpostAuth0Function/MutationdeleteGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationDeleteGroupInvitationDataResolverFnMutationDeleteGroupInvitationDataResolverFnAppSyncFunctionF40E8BA7": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationDeleteGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4f7907d1209a2c9953a0c053df402c634e359546d70c7cc5c2e8e21ea734880f.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/MutationDeleteGroupInvitationDataResolverFn/MutationDeleteGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "DeleteGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "deleteGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationdeleteGroupInvitationauth0FunctionMutationdeleteGroupInvitationauth0FunctionAppSyncFunctionF7BA02DC",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationdeleteGroupInvitationpostAuth0FunctionMutationdeleteGroupInvitationpostAuth0FunctionAppSyncFunction9DEB60DB",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationDeleteGroupInvitationDataResolverFnMutationDeleteGroupInvitationDataResolverFnAppSyncFunctionF40E8BA7",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"deleteGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/mutationDeleteGroupInvitationResolver"
+   }
+  },
+  "SubscriptiononCreateGroupInvitationauth0FunctionSubscriptiononCreateGroupInvitationauth0FunctionAppSyncFunction335ECE43": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononCreateGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononCreateGroupInvitationauth0Function/SubscriptiononCreateGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononCreateGroupInvitationpostAuth0FunctionSubscriptiononCreateGroupInvitationpostAuth0FunctionAppSyncFunctionD692CC6C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononCreateGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononCreateGroupInvitationpostAuth0Function/SubscriptiononCreateGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnCreateGroupInvitationDataResolverFnSubscriptionOnCreateGroupInvitationDataResolverFnAppSyncFunction3B1484EA": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnCreateGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptionOnCreateGroupInvitationDataResolverFn/SubscriptionOnCreateGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononCreateGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "onCreateGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononCreateGroupInvitationauth0FunctionSubscriptiononCreateGroupInvitationauth0FunctionAppSyncFunction335ECE43",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononCreateGroupInvitationpostAuth0FunctionSubscriptiononCreateGroupInvitationpostAuth0FunctionAppSyncFunctionD692CC6C",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnCreateGroupInvitationDataResolverFnSubscriptionOnCreateGroupInvitationDataResolverFnAppSyncFunction3B1484EA",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onCreateGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/subscriptionOnCreateGroupInvitationResolver"
+   }
+  },
+  "SubscriptiononUpdateGroupInvitationauth0FunctionSubscriptiononUpdateGroupInvitationauth0FunctionAppSyncFunctionAA28C2CB": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononUpdateGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononUpdateGroupInvitationauth0Function/SubscriptiononUpdateGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononUpdateGroupInvitationpostAuth0FunctionSubscriptiononUpdateGroupInvitationpostAuth0FunctionAppSyncFunctionAA223BFD": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononUpdateGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononUpdateGroupInvitationpostAuth0Function/SubscriptiononUpdateGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnUpdateGroupInvitationDataResolverFnSubscriptionOnUpdateGroupInvitationDataResolverFnAppSyncFunction1F36EC2C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnUpdateGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptionOnUpdateGroupInvitationDataResolverFn/SubscriptionOnUpdateGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononUpdateGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "onUpdateGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononUpdateGroupInvitationauth0FunctionSubscriptiononUpdateGroupInvitationauth0FunctionAppSyncFunctionAA28C2CB",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononUpdateGroupInvitationpostAuth0FunctionSubscriptiononUpdateGroupInvitationpostAuth0FunctionAppSyncFunctionAA223BFD",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnUpdateGroupInvitationDataResolverFnSubscriptionOnUpdateGroupInvitationDataResolverFnAppSyncFunction1F36EC2C",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onUpdateGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/subscriptionOnUpdateGroupInvitationResolver"
+   }
+  },
+  "SubscriptiononDeleteGroupInvitationauth0FunctionSubscriptiononDeleteGroupInvitationauth0FunctionAppSyncFunctionEF445249": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononDeleteGroupInvitationauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononDeleteGroupInvitationauth0Function/SubscriptiononDeleteGroupInvitationauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononDeleteGroupInvitationpostAuth0FunctionSubscriptiononDeleteGroupInvitationpostAuth0FunctionAppSyncFunction64CB3211": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononDeleteGroupInvitationpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptiononDeleteGroupInvitationpostAuth0Function/SubscriptiononDeleteGroupInvitationpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnDeleteGroupInvitationDataResolverFnSubscriptionOnDeleteGroupInvitationDataResolverFnAppSyncFunction27520E11": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnDeleteGroupInvitationDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/SubscriptionOnDeleteGroupInvitationDataResolverFn/SubscriptionOnDeleteGroupInvitationDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononDeleteGroupInvitationResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "onDeleteGroupInvitation",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononDeleteGroupInvitationauth0FunctionSubscriptiononDeleteGroupInvitationauth0FunctionAppSyncFunctionEF445249",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononDeleteGroupInvitationpostAuth0FunctionSubscriptiononDeleteGroupInvitationpostAuth0FunctionAppSyncFunction64CB3211",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnDeleteGroupInvitationDataResolverFnSubscriptionOnDeleteGroupInvitationDataResolverFnAppSyncFunction27520E11",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onDeleteGroupInvitation\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/subscriptionOnDeleteGroupInvitationResolver"
+   }
+  },
+  "QuerylistGroupInvitationByGroupIdauth0FunctionQuerylistGroupInvitationByGroupIdauth0FunctionAppSyncFunction4CA52511": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationByGroupIdauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationByGroupIdauth0Function/QuerylistGroupInvitationByGroupIdauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerylistGroupInvitationByGroupIdpostAuth0FunctionQuerylistGroupInvitationByGroupIdpostAuth0FunctionAppSyncFunction019C5C91": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationByGroupIdpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationByGroupIdpostAuth0Function/QuerylistGroupInvitationByGroupIdpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryListGroupInvitationByGroupIdDataResolverFnQueryListGroupInvitationByGroupIdDataResolverFnAppSyncFunction6DB05027": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryListGroupInvitationByGroupIdDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2829935606bd4d30e07c742a37bfa1b7f5ab2080750850c508bf2cb2debadf36.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/098c998f215c333f57348ca8912f66057ae6b574fe34013033dc54362ee2372c.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QueryListGroupInvitationByGroupIdDataResolverFn/QueryListGroupInvitationByGroupIdDataResolverFn.AppSyncFunction"
+   }
+  },
+  "QuerylistGroupInvitationByGroupIdResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "listGroupInvitationByGroupId",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationByGroupIdauth0FunctionQuerylistGroupInvitationByGroupIdauth0FunctionAppSyncFunction4CA52511",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationByGroupIdpostAuth0FunctionQuerylistGroupInvitationByGroupIdpostAuth0FunctionAppSyncFunction019C5C91",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryListGroupInvitationByGroupIdDataResolverFnQueryListGroupInvitationByGroupIdDataResolverFnAppSyncFunction6DB05027",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"listGroupInvitationByGroupId\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/queryListGroupInvitationByGroupIdResolver"
+   }
+  },
+  "QuerylistGroupInvitationByInvitedEmailauth0FunctionQuerylistGroupInvitationByInvitedEmailauth0FunctionAppSyncFunction377E0A19": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationByInvitedEmailauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationByInvitedEmailauth0Function/QuerylistGroupInvitationByInvitedEmailauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerylistGroupInvitationByInvitedEmailpostAuth0FunctionQuerylistGroupInvitationByInvitedEmailpostAuth0FunctionAppSyncFunction574510F3": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistGroupInvitationByInvitedEmailpostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QuerylistGroupInvitationByInvitedEmailpostAuth0Function/QuerylistGroupInvitationByInvitedEmailpostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryListGroupInvitationByInvitedEmailDataResolverFnQueryListGroupInvitationByInvitedEmailDataResolverFnAppSyncFunction31A84AC2": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "GroupInvitationDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryListGroupInvitationByInvitedEmailDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6b8318a8f6117c5cd931cfc6d4b7483622d3d688f87ef9caa82ae7e5915ee75a.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/098c998f215c333f57348ca8912f66057ae6b574fe34013033dc54362ee2372c.vtl"
+    }
+   },
+   "DependsOn": [
+    "GroupInvitationDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/QueryListGroupInvitationByInvitedEmailDataResolverFn/QueryListGroupInvitationByInvitedEmailDataResolverFn.AppSyncFunction"
+   }
+  },
+  "QuerylistGroupInvitationByInvitedEmailResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "listGroupInvitationByInvitedEmail",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationByInvitedEmailauth0FunctionQuerylistGroupInvitationByInvitedEmailauth0FunctionAppSyncFunction377E0A19",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerylistGroupInvitationByInvitedEmailpostAuth0FunctionQuerylistGroupInvitationByInvitedEmailpostAuth0FunctionAppSyncFunction574510F3",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryListGroupInvitationByInvitedEmailDataResolverFnQueryListGroupInvitationByInvitedEmailDataResolverFnAppSyncFunction31A84AC2",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"listGroupInvitationByInvitedEmail\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "GroupInvitationTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/queryListGroupInvitationByInvitedEmailResolver"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34K0waeeVasdtgt0rkxiUAg6KnVYV4t0n6NRpp9+f/Mn+c8iLV9jv8CqZdX02+AbmDxIlVyva3pQtf2HEkZTiCmVg59UHNhVJSNGSKZNoGP+w5ceMVznN7sY4BtfANzYDHVDIeBxhrsJwt8NAi8FpkhtbmI+bfmyOqFg/Tv6n98R2LVEGbn2XIm6Nfj8PF4qLkeKEIqQCb2sYKeCQbE+6FlhW9zPplNRs61qx89wthoMjOMvTJX+BfQ7Pu7N4n8XE6keC6p4/uEZ8CTYBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "GetAttGroupInvitationTableStreamArn": {
+   "Description": "Your DynamoDB table StreamArn.",
+   "Value": {
+    "Fn::GetAtt": [
+     "GroupInvitationTable",
+     "TableStreamArn"
+    ]
+   },
+   "Export": {
+    "Name": {
+     "Fn::Join": [
+      ":",
+      [
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "GetAtt:GroupInvitationTable:StreamArn"
+      ]
+     ]
+    }
+   }
+  },
+  "GetAttGroupInvitationTableName": {
+   "Description": "Your DynamoDB table name.",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "GroupInvitation-",
+      {
+       "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+      },
+      "-NONE"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": {
+     "Fn::Join": [
+      ":",
+      [
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "GetAtt:GroupInvitationTable:Name"
+      ]
+     ]
+    }
+   }
+  }
+ }
+}

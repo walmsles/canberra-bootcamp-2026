@@ -1,0 +1,887 @@
+{
+ "Resources": {
+  "TodoListtodosauth0FunctionTodoListtodosauth0FunctionAppSyncFunction02E26213": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoListtodosauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoListtodosauth0Function/TodoListtodosauth0Function.AppSyncFunction"
+   }
+  },
+  "TodoListTodosDataResolverFnTodoListTodosDataResolverFnAppSyncFunction9E1048C1": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemNestedStackTodoItemNestedStackResource4FFC77C4Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemTodoItemDataSource639BD4DCName"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoListTodosDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b36a224d1b284df8c8d7f9e15128a23479f88fb3de68a753f0ed53264b103298.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoListTodosDataResolverFn/TodoListTodosDataResolverFn.AppSyncFunction"
+   }
+  },
+  "TodoListtodosResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "todos",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "TodoListtodosauth0FunctionTodoListtodosauth0FunctionAppSyncFunction02E26213",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "TodoListTodosDataResolverFnTodoListTodosDataResolverFnAppSyncFunction9E1048C1",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"TodoList\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"todos\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemNestedStackTodoItemNestedStackResource4FFC77C4Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemTodoItemTable665C801ETableArn"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "TodoList"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/todoListTodosResolver"
+   }
+  },
+  "ListGrouplistsauth0FunctionListGrouplistsauth0FunctionAppSyncFunction639713A2": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "ListGrouplistsauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/ListGrouplistsauth0Function/ListGrouplistsauth0Function.AppSyncFunction"
+   }
+  },
+  "ListGroupListsDataResolverFnListGroupListsDataResolverFnAppSyncFunctionF76D9B90": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListDataSource1B7AB885Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "ListGroupListsDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/352f15c3de3b6ae18dfc3f7fdc731d3fbab215d8e528d38e0f5f5842703c598c.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/49e7a1f2fb4c809b82bed6b0242a2a3bcfa2c5276ebd2539ff330fee36f8fe18.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/ListGroupListsDataResolverFn/ListGroupListsDataResolverFn.AppSyncFunction"
+   }
+  },
+  "ListGrouplistsResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "lists",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "ListGrouplistsauth0FunctionListGrouplistsauth0FunctionAppSyncFunction639713A2",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "ListGroupListsDataResolverFnListGroupListsDataResolverFnAppSyncFunctionF76D9B90",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"ListGroup\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"lists\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListTable38E56B14TableArn"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "ListGroup"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/listGroupListsResolver"
+   }
+  },
+  "TodoListgroupauth0FunctionTodoListgroupauth0FunctionAppSyncFunctionD03478CC": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoListgroupauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoListgroupauth0Function/TodoListgroupauth0Function.AppSyncFunction"
+   }
+  },
+  "TodoListGroupDataResolverFnTodoListGroupDataResolverFnAppSyncFunction1A2B39F4": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupNestedStackListGroupNestedStackResourceDA34C58BOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupDataSource2768A72BName"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoListGroupDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/7c3664836f98d3d3c5da742566ef8b96aa8b3bb7e7b1fa163bc46b14653a706e.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoListGroupDataResolverFn/TodoListGroupDataResolverFn.AppSyncFunction"
+   }
+  },
+  "TodoListgroupResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "group",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "TodoListgroupauth0FunctionTodoListgroupauth0FunctionAppSyncFunctionD03478CC",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "TodoListGroupDataResolverFnTodoListGroupDataResolverFnAppSyncFunction1A2B39F4",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"TodoList\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"group\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupNestedStackListGroupNestedStackResourceDA34C58BOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "TodoList"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/todoListGroupResolver"
+   }
+  },
+  "TodoItemlistauth0FunctionTodoItemlistauth0FunctionAppSyncFunction83CC7D0E": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoItemlistauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoItemlistauth0Function/TodoItemlistauth0Function.AppSyncFunction"
+   }
+  },
+  "TodoItemListDataResolverFnTodoItemListDataResolverFnAppSyncFunction80EC1D3C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListDataSource1B7AB885Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "TodoItemListDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/eae1e589397d87aacdc818ae2aef6443ea2a727542a24303192925a67a4cde77.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dcb70e4856bc9a423e02b8b9e9c2ab3f71479784572d4c04a02d1f5b61a9f9ac.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoItemListDataResolverFn/TodoItemListDataResolverFn.AppSyncFunction"
+   }
+  },
+  "TodoItemlistResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "FieldName": "list",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "TodoItemlistauth0FunctionTodoItemlistauth0FunctionAppSyncFunction83CC7D0E",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "TodoItemListDataResolverFnTodoItemListDataResolverFnAppSyncFunction80EC1D3C",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"TodoItem\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"list\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListTable38E56B14TableArn"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "TodoItem"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/todoItemListResolver"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yXMQQ6CQAxA0bO4H6oMJq6FxKULOACpQyED2CG0AzGEuxt09fI334LNbpCecJXENUMy+hdsTxKlplJ0g8FV6k2yGkVIBe4HRjLIoxtIcxQyOE3yYQdb0fIjslMfuAjc+i7OeIQpWi5JwrjQvO/m96gUO8/dbjg0BL2cF3uF1MLl1Iv3yRxZ/Zug/PsFsFe7NacAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemNestedStackTodoItemNestedStackResource4FFC77C4Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemTodoItemDataSource639BD4DCName": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemNestedStackTodoItemNestedStackResource4FFC77C4Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoItemTodoItemTable665C801ETableArn": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListDataSource1B7AB885Name": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListNestedStackTodoListNestedStackResource4EABA029Outputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataTodoListTodoListTable38E56B14TableArn": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupNestedStackListGroupNestedStackResourceDA34C58BOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupDataSource2768A72BName": {
+   "Type": "String"
+  },
+  "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupNestedStackListGroupNestedStackResourceDA34C58BOutputsamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn": {
+   "Type": "String"
+  }
+ }
+}
