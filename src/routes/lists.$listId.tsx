@@ -52,13 +52,14 @@ function ListDetailPage() {
     )
   }
 
-  const handleAddTodo = (title: string, description?: string, tags?: string[], dueDate?: string, reminderMinutes?: number) => {
+  const handleAddTodo = (title: string, description?: string, tags?: string[], dueDate?: string, reminderMinutes?: number, priority?: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT') => {
     createTodo.mutate({
       title,
       description,
       tags,
       dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
       reminderMinutes,
+      priority,
       listId,
       status: 'PENDING',
     })

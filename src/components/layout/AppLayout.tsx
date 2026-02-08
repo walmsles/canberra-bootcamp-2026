@@ -190,7 +190,7 @@ export function AppLayout() {
     }
   }
 
-  const handleAddTodo = (title: string, description?: string, tags?: string[], dueDate?: string, reminderMinutes?: number) => {
+  const handleAddTodo = (title: string, description?: string, tags?: string[], dueDate?: string, reminderMinutes?: number, priority?: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT') => {
     if (!selectedListId) {
       // Can't add to "All" - need to select a list first
       alert('Please select a list first to add a todo')
@@ -202,6 +202,7 @@ export function AppLayout() {
       tags,
       dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
       reminderMinutes,
+      priority,
       listId: selectedListId,
       status: 'PENDING',
     })

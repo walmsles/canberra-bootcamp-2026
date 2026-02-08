@@ -45,15 +45,15 @@ Frontend integration of four AI agent capabilities into the existing todo app. T
     - Prevent duplicate invocations by checking `isPending` before calling `mutateAsync`
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 4. Add priority field and AI assist to AddTodoForm
-  - [ ] 4.1 Update `src/components/todo/AddTodoForm.tsx` to add a priority Select field (shadcn Select with LOW/MEDIUM/HIGH/URGENT options), an AI assist button (wand icon) that calls `useAnalyzeTask`, and pre-fill logic that maps the analyzer response to form fields
+- [x] 4. Add priority field and AI assist to AddTodoForm
+  - [x] 4.1 Update `src/components/todo/AddTodoForm.tsx` to add a priority Select field (shadcn Select with LOW/MEDIUM/HIGH/URGENT options), an AI assist button (wand icon) that calls `useAnalyzeTask`, and pre-fill logic that maps the analyzer response to form fields
     - Extend `onAdd` callback to accept optional `priority` parameter
     - Add priority state, AI loading state, and error display
     - When AI returns, pre-fill priority (mapped), tags, dueDate; keep title as user typed it
     - Show error message on parse failure, preserve user input
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7_
 
-  - [ ] 4.2 Update `src/routes/lists.$listId.tsx` and `src/components/layout/AppLayout.tsx` to pass the new `priority` parameter from `AddTodoForm.onAdd` through to `createTodo.mutate`
+  - [x] 4.2 Update `src/routes/lists.$listId.tsx` and `src/components/layout/AppLayout.tsx` to pass the new `priority` parameter from `AddTodoForm.onAdd` through to `createTodo.mutate`
     - _Requirements: 1.2_
 
 - [ ] 5. Checkpoint - NLP todo creation
