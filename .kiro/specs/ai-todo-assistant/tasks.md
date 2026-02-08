@@ -56,18 +56,18 @@ Frontend integration of four AI agent capabilities into the existing todo app. T
   - [x] 4.2 Update `src/routes/lists.$listId.tsx` and `src/components/layout/AppLayout.tsx` to pass the new `priority` parameter from `AddTodoForm.onAdd` through to `createTodo.mutate`
     - _Requirements: 1.2_
 
-- [ ] 5. Checkpoint - NLP todo creation
+- [x] 5. Checkpoint - NLP todo creation
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 6. Create Project Breakdown dialog
-  - [ ] 6.1 Create `src/components/ai/ProjectBreakdownDialog.tsx` using shadcn Dialog with inputs for project brief and optional deadline, loading state, results view with task list and confirm button
+- [x] 6. Create Project Breakdown dialog
+  - [x] 6.1 Create `src/components/ai/ProjectBreakdownDialog.tsx` using shadcn Dialog with inputs for project brief and optional deadline, loading state, results view with task list and confirm button
     - Use `useBreakdownProject` hook
     - Display generated tasks in a list with checkboxes for selection
     - On confirm, call `useCreateTodo` for each selected task
     - Show error message with retry on failure
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-  - [ ] 6.2 Add project breakdown action button to `src/components/list/ListCard.tsx` that opens the ProjectBreakdownDialog
+  - [x] 6.2 Add project breakdown action button to `src/components/list/ListCard.tsx` that opens the ProjectBreakdownDialog
     - Add a brain/sparkles icon button to the ListCard header actions
     - Pass `listId` to the dialog
     - _Requirements: 2.1_
