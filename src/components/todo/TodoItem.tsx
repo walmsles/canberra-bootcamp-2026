@@ -10,9 +10,10 @@ interface TodoItemProps {
   onToggleComplete: (id: string, currentStatus: string) => void
   onDelete: (id: string) => void
   onStatusChange?: (id: string, status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETE') => void
+  canDelete?: boolean
 }
 
-export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange }: TodoItemProps) {
+export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, canDelete = true }: TodoItemProps) {
   const isComplete = todo.status === 'COMPLETE'
   
   const formatDueDate = (dateString: string | null | undefined) => {
@@ -113,14 +114,16 @@ export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange }: T
         </select>
       )}
 
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        onClick={() => onDelete(todo.id)}
-        aria-label={`Delete "${todo.title}"`}
-      >
-        <Trash2 className="h-4 w-4 text-destructive" />
-      </Button>
+      {canDelete && (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={() => onDelete(todo.id)}
+          aria-label={`Delete "${todo.title}"`}
+        >
+          <Trash2 className="h-4 w-4 text-destructive" />
+        </Button>
+      )}
     </div>
   )
 }

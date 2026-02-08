@@ -24,7 +24,14 @@ export function useLists(owner: string) {
       // Amplify automatically filters by owner when using owner-based auth
       const { data, errors } = await client.models.TodoList.list()
       if (errors) throw new Error(errors[0].message)
-      return data
+      // Sort by sortOrder (ascending), then by createdAt as fallback
+      return [...data].sort((a, b) => {
+        const orderA = a.sortOrder ?? 0
+        const orderB = b.sortOrder ?? 0
+        if (orderA !== orderB) return orderA - orderB
+        // Fallback to createdAt if sortOrder is the same
+        return (a.createdAt ?? '').localeCompare(b.createdAt ?? '')
+      })
     },
     enabled: !!owner,
   })
@@ -185,6 +192,30 @@ export function useDeleteList() {
       queryClient.invalidateQueries({ queryKey: listKeys.detail(data.id) })
       queryClient.invalidateQueries({ queryKey: todoKeys.list(data.id) })
       queryClient.invalidateQueries({ queryKey: todoKeys.byOwner(data.owner) })
+    },
+  })
+}
+
+// Reorder lists mutation - updates sortOrder for multiple lists
+export function useReorderLists() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ lists, owner }: { lists: { id: string; sortOrder: number }[]; owner: string }) => {
+      // Update all lists with their new sort order
+      await Promise.all(
+        lists.map(async ({ id, sortOrder }) => {
+          const { errors } = await client.models.TodoList.update(
+            { id, sortOrder },
+            { authMode: 'userPool' }
+          )
+          if (errors) throw new Error(errors[0].message)
+        })
+      )
+      return { owner }
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: listKeys.byOwner(data.owner) })
     },
   })
 }

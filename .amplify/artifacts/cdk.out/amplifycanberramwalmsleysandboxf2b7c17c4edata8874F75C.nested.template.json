@@ -1,6 +1,255 @@
 {
- "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.21.0\",\"stackType\":\"api-AppSync\",\"metadata\":{\"dataSources\":\"dynamodb\",\"authorizationModes\":\"amazon_cognito_identity_pools,amazon_cognito_user_pools,aws_iam\",\"customOperations\":\"\"}}",
+ "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.16.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
  "Resources": {
+  "acceptinvitationlambdaServiceRole8B60CD95": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "accept-invitation"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/ServiceRole/Resource"
+   }
+  },
+  "acceptinvitationlambdaServiceRoleDefaultPolicyD6FE6045": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "amplifyDataListGroupNestedStackListGroupNestedStackResourceA6E27BCD",
+         "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "amplifyDataListGroupNestedStackListGroupNestedStackResourceA6E27BCD",
+         "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "amplifyDataGroupInvitationNestedStackGroupInvitationNestedStackResource0B9535C1",
+         "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "amplifyDataGroupInvitationNestedStackGroupInvitationNestedStackResource0B9535C1",
+         "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "acceptinvitationlambdaServiceRoleDefaultPolicyD6FE6045",
+    "Roles": [
+     {
+      "Ref": "acceptinvitationlambdaServiceRole8B60CD95"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "acceptinvitationlambda08B68843": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "174d8ae065d445603f0a430d92d465901e828b2e0f4a556acdc49da9c4504c91.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AMPLIFY_SSM_ENV_CONFIG": "{}",
+      "LISTGROUP_TABLE_NAME": {
+       "Fn::Select": [
+        1,
+        {
+         "Fn::Split": [
+          "/",
+          {
+           "Fn::Select": [
+            5,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Fn::GetAtt": [
+                "amplifyDataListGroupNestedStackListGroupNestedStackResourceA6E27BCD",
+                "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      "GROUPINVITATION_TABLE_NAME": {
+       "Fn::Select": [
+        1,
+        {
+         "Fn::Split": [
+          "/",
+          {
+           "Fn::Select": [
+            5,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Fn::GetAtt": [
+                "amplifyDataGroupInvitationNestedStackGroupInvitationNestedStackResource0B9535C1",
+                "Outputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 512
+    },
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "acceptinvitationlambdaServiceRole8B60CD95",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "accept-invitation"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ],
+    "Timeout": 3
+   },
+   "DependsOn": [
+    "acceptinvitationlambdaServiceRoleDefaultPolicyD6FE6045",
+    "acceptinvitationlambdaServiceRole8B60CD95"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/Resource",
+    "aws:asset:path": "asset.174d8ae065d445603f0a430d92d465901e828b2e0f4a556acdc49da9c4504c91",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
   "amplifyDataGraphQLAPI42A6FA33": {
    "Type": "AWS::AppSync::GraphQLApi",
    "Properties": {
@@ -51,7 +300,7 @@
      ]
     },
     "DefinitionS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe125d422c25311d24430b7c79e7a6e47cf48da960f592679b68b9f229d2dda1.graphql"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bcaa5fce01ce2851091b8a9a4c18eed68ea97c11efdb70d6f2f038be178bed58.graphql"
     }
    },
    "UpdateReplacePolicy": "Delete",
@@ -69,7 +318,6 @@
       "ApiId"
      ]
     },
-    "Description": "None Data Source for Pipeline functions",
     "Name": "NONE_DS",
     "Type": "NONE"
    },
@@ -303,7 +551,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/8a9e22f3a641d0573779039c2d8e6934a66a29bf1fd551c97ed87148b88f0dee.json"
+       "/12e116c50e5b85b8ac2f19bfee6c1bf8c2e02726b6389cf73d8ab0ba3c285ec3.json"
       ]
      ]
     }
@@ -396,7 +644,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/62339a7788c1d7fd140fda728036ab60f5e8a74c4acde1e3505da7a2c89355f8.json"
+       "/ae8e5d183802af927ffa19ba11842b9b5d039e98585d6546edc990fe14fe6f60.json"
       ]
      ]
     }
@@ -489,7 +737,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/0dc9e5c41da9cd74527b90fc731d5ba157eddc2a6715ab543df3e557e11343f5.json"
+       "/7bf6fc2c9da7cefa4e38d4dd2dc97c9acc21a30344845fb14c0065f1da490186.json"
       ]
      ]
     }
@@ -582,7 +830,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/8fed58dc64a077b050b3ac997ea5c530fe9df6bbc6bc848de83b9f6f79b6837c.json"
+       "/f1ee3153ddd6442a7206bc8e8dc041143c09978c0633106cb771885d8ef2be3c.json"
       ]
      ]
     }
@@ -595,6 +843,84 @@
    "Metadata": {
     "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation.NestedStack/GroupInvitation.NestedStackResource",
     "aws:asset:path": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationE41AB7B8.nested.template.json",
+    "aws:asset:property": "TemplateURL"
+   }
+  },
+  "amplifyDataFunctionDirectiveStackNestedStackFunctionDirectiveStackNestedStackResource1246A302": {
+   "Type": "AWS::CloudFormation::Stack",
+   "Properties": {
+    "Parameters": {
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5EArn": {
+      "Fn::GetAtt": [
+       "acceptinvitationlambda08B68843",
+       "Arn"
+      ]
+     },
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": {
+      "Fn::GetAtt": [
+       "amplifyDataGraphQLAPI42A6FA33",
+       "ApiId"
+      ]
+     },
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref": {
+      "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+     },
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref": {
+      "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+     },
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref": {
+      "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+     },
+     "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name": {
+      "Fn::GetAtt": [
+       "amplifyDataGraphQLAPINONEDS684BF699",
+       "Name"
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "amplifyData"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ],
+    "TemplateURL": {
+     "Fn::Join": [
+      "",
+      [
+       "https://s3.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".",
+       {
+        "Ref": "AWS::URLSuffix"
+       },
+       "/",
+       {
+        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+       },
+       "/f68c03084f69aa5d6511b5fd70635ea727030c2cb80ed42d31ca05c5d91c3bc0.json"
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "amplifyDataGraphQLAPITransformerSchemaFF50A789"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack.NestedStack/FunctionDirectiveStack.NestedStackResource",
+    "aws:asset:path": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataFunctionDirectiveStack13A9B653.nested.template.json",
     "aws:asset:property": "TemplateURL"
    }
   },
@@ -690,7 +1016,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/7b8d4dcee45c408e9f5eef5a3f5ac656a42907460a02580a097b1e34cf033145.json"
+       "/639a93685d0e5e41716bac4f0224fe89f80562cb4ddf36fb6cd5ceb37dc44b44.json"
       ]
      ]
     }
@@ -882,7 +1208,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "da58f4afd88537ce6b7c7fb6ae6740218861064705d7729968956bb180f60dd0.zip"
+     "dc3de77ba91d18e72ce7329621ebfb06df8d2d1f23cef1b2aad86df5b9d3cfa5.zip"
     ],
     "SourceMarkers": [
      {}
@@ -1387,7 +1713,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "fd50b39b471a7b9a789355afac246719d770fe08794b0277758f12dde6d7093e.zip"
+     "8863a1d5cb3cc0c804343eca120f3f00cd5930316b5e004a62be2bec63c5a848.zip"
     ],
     "SourceMarkers": [
      {}
@@ -1483,7 +1809,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11Qy27CMBD8lt6NW0KlnkNQe0GIEqnXaHE2weBH6nWIoij/XjmG0PY0j5XHs5vwZPXGl0/Q0UKUl4WSRz7skDyWuQdxYQck2zqBDDoqBmga6o3gw4eD5vSt0kaugZBllZmcz23ayF8qFyfUwHbW4AY85DEqq8xDjYxWfFi34oI+TG4swt4qKfqHfdNRhJ/D62IosVG212g8j6PNbDAgQk88DTAyBfpYAh+yymyhR/eFjqQ1LJemVuiteW+N8MGZSVbN5sgkaD4crJqWmPBRMbKREWk+5N5JU+/BgUaPbprfxTgGGe+bteStnq8cUu88di1U6FlAR0JJnnaUKTlVZ9NKuYdamvpP/r/QvbNXWaKL9zK2RH6m52vyypcJf3k6k5QL1xovNfJDxB8AfMG8FwIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RS2/CMAz+LdxDNsqknUvRdkGIUWnXyqRuCeTRxSmoivrfp7RQ2E7fQ5b92U54snznixlcaS7K81zJAw9bJI9l7kGcGVypCAr0oYTC2BJPxLcDfLRGeGkNk6B52FuFLKvMgDurpOiiHFnPaFkEIEJPPI3ASmyU7TQaz1etOKNfT0as5mF0V0DIRhrb3dgIjynPumdjWB6yykwZs8psoEP3jY6izqWpFXr7qLiTnkHTUGcED58OmuOPShs5xMgqMzhfm7SRTyoXR9TAttbgGjzktnViqH6onhFpHnLvpKl34ECjRzcc6C76ng2XyT3U0tRsjzQ1Gj+RteStfvYnfvuPiisWcCWhJE+vlCk5bP1n0L8+O2cvskQXV+xZ/DA/0csleeOLhL/OTiTl3LXGS418P+IvW2pIhjQCAAA="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/CDKMetadata/Default"
@@ -1809,6 +2135,11 @@
   }
  },
  "Outputs": {
+  "amplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5ERef": {
+   "Value": {
+    "Ref": "acceptinvitationlambda08B68843"
+   }
+  },
   "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": {
    "Value": {
     "Fn::GetAtt": [

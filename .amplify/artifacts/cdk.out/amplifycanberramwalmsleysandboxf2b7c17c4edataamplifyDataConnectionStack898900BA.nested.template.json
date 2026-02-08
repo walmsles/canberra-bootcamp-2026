@@ -12,7 +12,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "TodoListtodosauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/684d61c445feff1bb3b4ae62ac2c77f9acf0a242be8e8ceefbdd4dc2d18db987.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -155,7 +155,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "ListGrouplistsauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/684d61c445feff1bb3b4ae62ac2c77f9acf0a242be8e8ceefbdd4dc2d18db987.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -298,7 +298,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "TodoListgroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/684d61c445feff1bb3b4ae62ac2c77f9acf0a242be8e8ceefbdd4dc2d18db987.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -441,7 +441,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "TodoItemlistauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/419b4b59322e78c75ce231311e066ad98b1e767d21646955bd1fd5a19398d799.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/684d61c445feff1bb3b4ae62ac2c77f9acf0a242be8e8ceefbdd4dc2d18db987.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },

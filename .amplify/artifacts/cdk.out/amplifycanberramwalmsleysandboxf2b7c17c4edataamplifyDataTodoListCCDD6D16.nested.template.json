@@ -683,7 +683,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerygetTodoListauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -863,7 +863,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistTodoListsauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1053,6 +1053,28 @@
     "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/TodoList/MutationcreateTodoListinit0Function/MutationcreateTodoListinit0Function.AppSyncFunction"
    }
   },
+  "MutationcreateTodoListinit1FunctionMutationcreateTodoListinit1FunctionAppSyncFunction7B8376FC": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateTodoListinit1Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/036ae8abe9e3f4c3f57ab7787d9b107459e39edd4a80bec60a31e4bf987e8c82.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/TodoList/MutationcreateTodoListinit1Function/MutationcreateTodoListinit1Function.AppSyncFunction"
+   }
+  },
   "MutationcreateTodoListauth0FunctionMutationcreateTodoListauth0FunctionAppSyncFunction91C90518": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -1065,7 +1087,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "MutationcreateTodoListauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/b9a18cef05e699361f8067bf9691279c8fdd12ad6fd1a0d4a3b6479bc706c2f7.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/44aa4d610702581580f6d239e73007091cfceb8ffc7558f9fd415eff488ea73f.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1140,6 +1162,12 @@
       {
        "Fn::GetAtt": [
         "MutationcreateTodoListinit0FunctionMutationcreateTodoListinit0FunctionAppSyncFunctionE78BEF9B",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateTodoListinit1FunctionMutationcreateTodoListinit1FunctionAppSyncFunction7B8376FC",
         "FunctionId"
        ]
       },
@@ -1279,7 +1307,7 @@
      "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
     },
     "ResponseMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9e8ebd634552845ffd2a43e858b05047a7902e0596b943a4e8fc7f4c1ead74cb.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/867c30299066222136f99eb9a10559796cf176a8f316097357f3be481a6569b7.vtl"
     }
    },
    "DependsOn": [
@@ -1655,7 +1683,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononCreateTodoListauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1802,7 +1830,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononUpdateTodoListauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1949,7 +1977,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononDeleteTodoListauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2096,7 +2124,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistTodoListByGroupIdAndNameauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },

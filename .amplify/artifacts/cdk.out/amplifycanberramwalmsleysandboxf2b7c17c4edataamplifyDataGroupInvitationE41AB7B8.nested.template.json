@@ -679,7 +679,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerygetGroupInvitationauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -859,7 +859,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistGroupInvitationsauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1275,7 +1275,7 @@
      "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
     },
     "ResponseMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/af669db3d0467503dbdb4805641b8a3ff1f09824210da1d7b3aa7fd14e7b6dd0.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4e55c0f4821dd6c68a1e44a411f8c0789b4c273dac4a28169797da41957f1883.vtl"
     }
    },
    "DependsOn": [
@@ -1651,7 +1651,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononCreateGroupInvitationauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1798,7 +1798,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononUpdateGroupInvitationauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1945,7 +1945,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononDeleteGroupInvitationauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2092,7 +2092,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistGroupInvitationByGroupIdauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2272,7 +2272,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistGroupInvitationByInvitedEmailauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2500,6 +2500,14 @@
       ]
      ]
     }
+   }
+  },
+  "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn": {
+   "Value": {
+    "Fn::GetAtt": [
+     "GroupInvitationTable",
+     "TableArn"
+    ]
    }
   }
  }

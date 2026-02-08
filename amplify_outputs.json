@@ -140,6 +140,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "sortOrder": {
+              "name": "sortOrder",
+              "isArray": false,
+              "type": "Int",
+              "isRequired": false,
+              "attributes": []
+            },
             "groupId": {
               "name": "groupId",
               "isArray": false,
@@ -227,6 +234,13 @@
                       "update",
                       "delete",
                       "read"
+                    ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "read",
+                      "update"
                     ]
                   }
                 ]
@@ -391,6 +405,14 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "read",
+                      "create",
+                      "update"
+                    ]
                   }
                 ]
               }
@@ -426,8 +448,23 @@
               "isRequired": false,
               "attributes": []
             },
+            "ownerEmail": {
+              "name": "ownerEmail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "memberIds": {
               "name": "memberIds",
+              "isArray": true,
+              "type": "String",
+              "isRequired": false,
+              "attributes": [],
+              "isArrayNullable": true
+            },
+            "memberEmails": {
+              "name": "memberEmails",
               "isArray": true,
               "type": "String",
               "isRequired": false,
@@ -488,6 +525,13 @@
                       "update",
                       "delete",
                       "read"
+                    ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "read",
+                      "update"
                     ]
                   }
                 ]
@@ -613,6 +657,13 @@
                       "delete",
                       "read"
                     ]
+                  },
+                  {
+                    "allow": "private",
+                    "operations": [
+                      "read",
+                      "update"
+                    ]
                   }
                 ]
               }
@@ -643,7 +694,70 @@
           ]
         }
       },
-      "nonModels": {}
+      "nonModels": {
+        "AcceptGroupInvitationReturnType": {
+          "name": "AcceptGroupInvitationReturnType",
+          "fields": {
+            "success": {
+              "name": "success",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": true,
+              "attributes": []
+            },
+            "message": {
+              "name": "message",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "groupId": {
+              "name": "groupId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        }
+      },
+      "mutations": {
+        "acceptGroupInvitation": {
+          "name": "acceptGroupInvitation",
+          "isArray": false,
+          "type": {
+            "nonModel": "AcceptGroupInvitationReturnType"
+          },
+          "isRequired": false,
+          "arguments": {
+            "invitationId": {
+              "name": "invitationId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "groupId": {
+              "name": "groupId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "userId": {
+              "name": "userId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "userEmail": {
+              "name": "userEmail",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
+        }
+      }
     }
   },
   "version": "1.4"

@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/537ccc0e364528593ab577dc4641a203474b146432ee9462679169de29987661.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/05be1b7698ed20d6ade992f907f4c7e91333b266733809940f027df2902a3f06.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -273,6 +273,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "groups"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "acceptinvitationlambdaServiceRole8B60CD95"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "acceptinvitationlambdaServiceRoleDefaultPolicyD6FE6045"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/accept-invitation-lambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "acceptinvitationlambda08B68843"
           }
         ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GraphQLAPI/Resource": [
@@ -1101,6 +1119,16 @@
           {
             "type": "graphqltransformer:resourceName",
             "data": "MutationcreateTodoListinit0Function"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/TodoList/MutationcreateTodoListinit1Function/MutationcreateTodoListinit1Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationcreateTodoListinit1FunctionMutationcreateTodoListinit1FunctionAppSyncFunction7B8376FC"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationcreateTodoListinit1Function"
           }
         ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/TodoList/MutationcreateTodoListauth0Function/MutationcreateTodoListauth0Function.AppSyncFunction": [
@@ -2535,6 +2563,12 @@
             "data": "CDKMetadataAvailable"
           }
         ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ListGroup/amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
+          }
+        ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ListGroup/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource22E8EE2DOutputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEvent036A1F7DArn": [
           {
             "type": "aws:cdk:logicalId",
@@ -2575,12 +2609,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupDataSource2768A72BName"
-          }
-        ],
-        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ListGroup/amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn"
           }
         ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ListGroup.NestedStack/ListGroup.NestedStackResource": [
@@ -3135,6 +3163,12 @@
             "data": "CDKMetadataAvailable"
           }
         ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGroupInvitationGroupInvitationTableA0C4DD67TableArn"
+          }
+        ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/GroupInvitation/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource22E8EE2DOutputs.amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEvent036A1F7DArn": [
           {
             "type": "aws:cdk:logicalId",
@@ -3175,6 +3209,124 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifyDataGroupInvitationNestedStackGroupInvitationNestedStackResource0B9535C1"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/HasEnvironmentParameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HasEnvironmentParameter"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/FnAcceptGroupInvitationLambdaDataSource": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "FnAcceptGroupInvitationLambdaDataSource"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/FnAcceptGroupInvitationLambdaDataSource/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FnAcceptGroupInvitationLambdaDataSourceServiceRole31EA1DDE"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/FnAcceptGroupInvitationLambdaDataSource/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FnAcceptGroupInvitationLambdaDataSourceServiceRoleDefaultPolicyDA89CC5D"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/FnAcceptGroupInvitationLambdaDataSource/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FnAcceptGroupInvitationLambdaDataSource"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "FnAcceptGroupInvitationLambdaDataSource"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/InvokeFnAcceptGroupInvitationLambdaDataSource/InvokeFnAcceptGroupInvitationLambdaDataSource.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InvokeFnAcceptGroupInvitationLambdaDataSourceInvokeFnAcceptGroupInvitationLambdaDataSourceAppSyncFunction316C3166"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InvokeFnAcceptGroupInvitationLambdaDataSource"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/mutationAcceptGroupInvitationResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationacceptGroupInvitationResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Mutation.acceptGroupInvitation"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/MutationAcceptGroupInvitationAuthFN/MutationAcceptGroupInvitationAuthFN.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationAcceptGroupInvitationAuthFNMutationAcceptGroupInvitationAuthFNAppSyncFunction1F0DCBD4"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationAcceptGroupInvitationAuthFN"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5EArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5EArn"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputs.amplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthauthenticatedUserRoleBE917A29Ref"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputs.amplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthunauthenticatedUserRoleF35C33C3Ref"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputs.amplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack/reference-to-amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPINONEDS5DEC12C1Name"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/FunctionDirectiveStack.NestedStack/FunctionDirectiveStack.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataFunctionDirectiveStackNestedStackFunctionDirectiveStackNestedStackResource1246A302"
           }
         ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifyData/ConnectionStack/TodoListtodosauth0Function/TodoListtodosauth0Function.AppSyncFunction": [
@@ -3585,6 +3737,12 @@
             "data": "referencetoamplifycanberramwalmsleysandboxf2b7c17c4eauthNestedStackauthNestedStackResourceC8F34D29Outputsamplifycanberramwalmsleysandboxf2b7c17c4eauthamplifyAuthIdentityPoolFDCFB400Ref"
           }
         ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5ERef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifycanberramwalmsleysandboxf2b7c17c4edataacceptinvitationlambdaBB494C5ERef"
+          }
+        ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/data/amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataGraphQLAPICC3A452CApiId": [
           {
             "type": "aws:cdk:logicalId",
@@ -3607,6 +3765,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "data7552DF31"
+          }
+        ],
+        "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/definedFunctions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "definedFunctions"
           }
         ],
         "/amplify-canberra-mwalmsley-sandbox-f2b7c17c4e/awsAppsyncApiId": [

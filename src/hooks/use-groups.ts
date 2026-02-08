@@ -29,10 +29,10 @@ export function useOwnedGroups(owner: string) {
   return useQuery({
     queryKey: groupKeys.byOwner(owner),
     queryFn: async () => {
-      // Amplify automatically filters by owner when using owner-based auth
       const { data, errors } = await client.models.ListGroup.list()
       if (errors) throw new Error(errors[0].message)
-      return data
+      // Filter to only groups owned by this user
+      return data.filter((group) => group.owner === owner)
     },
     enabled: !!owner,
   })
@@ -74,7 +74,7 @@ export function useCreateGroup() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (input: CreateGroupInput) => {
+    mutationFn: async (input: CreateGroupInput & { ownerEmail?: string }) => {
       // Validate name is not empty or whitespace
       if (!input.name || input.name.trim() === '') {
         throw new Error('Group name cannot be empty')
@@ -83,6 +83,7 @@ export function useCreateGroup() {
       const { data, errors } = await client.models.ListGroup.create({
         name: input.name.trim(),
         description: input.description,
+        ownerEmail: input.ownerEmail,
         memberIds: input.memberIds ?? [],
       })
       if (errors) throw new Error(errors[0].message)
@@ -213,45 +214,30 @@ export function useInviteMember() {
   })
 }
 
-// Accept invitation and add user to group
+// Accept invitation using custom atomic mutation
 // Requirements: 7.2
 export function useAcceptInvitation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ invitationId, userId }: { invitationId: string; userId: string }) => {
-      // Get the invitation
-      const { data: invitation, errors: getErrors } = await client.models.GroupInvitation.get({
-        id: invitationId,
+    mutationFn: async ({ invitationId, groupId, userId, userEmail }: { 
+      invitationId: string
+      groupId: string
+      userId: string
+      userEmail: string 
+    }) => {
+      // Use the custom mutation that atomically appends to memberIds
+      const { data, errors } = await client.mutations.acceptGroupInvitation({
+        invitationId,
+        groupId,
+        userId,
+        userEmail,
       })
-      if (getErrors) throw new Error(getErrors[0].message)
-      if (!invitation) throw new Error('Invitation not found')
-
-      // Get the group
-      const { data: group, errors: groupErrors } = await client.models.ListGroup.get({
-        id: invitation.groupId,
-      })
-      if (groupErrors) throw new Error(groupErrors[0].message)
-      if (!group) throw new Error('Group not found')
-
-      // Add user to group memberIds
-      const currentMembers = group.memberIds ?? []
-      if (!currentMembers.includes(userId)) {
-        const { errors: updateErrors } = await client.models.ListGroup.update({
-          id: group.id,
-          memberIds: [...currentMembers, userId],
-        })
-        if (updateErrors) throw new Error(updateErrors[0].message)
-      }
-
-      // Update invitation status
-      const { data, errors } = await client.models.GroupInvitation.update({
-        id: invitationId,
-        status: 'ACCEPTED',
-        invitedUserId: userId,
-      })
+      
       if (errors) throw new Error(errors[0].message)
-      return { invitation: data, groupId: invitation.groupId }
+      if (!data?.success) throw new Error(data?.message ?? 'Failed to accept invitation')
+      
+      return { groupId: data.groupId }
     },
     onSuccess: (data) => {
       if (data?.groupId) {
@@ -259,6 +245,7 @@ export function useAcceptInvitation() {
         queryClient.invalidateQueries({ queryKey: invitationKeys.byGroup(data.groupId) })
       }
       queryClient.invalidateQueries({ queryKey: groupKeys.all })
+      queryClient.invalidateQueries({ queryKey: invitationKeys.all })
     },
   })
 }
@@ -343,6 +330,56 @@ export function useRevokeMember() {
     },
   })
 }
+// Leave group (for members to remove themselves)
+// Requirements: 7.3
+export function useLeaveGroup() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({
+      groupId,
+      userId,
+    }: {
+      groupId: string
+      userId: string
+    }) => {
+      // Get the group
+      const { data: group, errors: getErrors } = await client.models.ListGroup.get({ id: groupId })
+      if (getErrors) throw new Error(getErrors[0].message)
+      if (!group) throw new Error('Group not found')
+
+      // Cannot leave if you're the owner
+      if (group.owner === userId) {
+        throw new Error('Group owner cannot leave. Delete the group instead.')
+      }
+
+      // Remove user from memberIds and memberEmails
+      const currentMembers = group.memberIds ?? []
+      const currentEmails = group.memberEmails ?? []
+      const memberIndex = currentMembers.indexOf(userId)
+
+      const updatedMembers = currentMembers.filter((id) => id !== userId)
+      const updatedEmails = currentEmails.filter((_, index) => index !== memberIndex)
+
+      const { data, errors } = await client.models.ListGroup.update({
+        id: groupId,
+        memberIds: updatedMembers,
+        memberEmails: updatedEmails,
+      })
+      if (errors) throw new Error(errors[0].message)
+      return { group: data, userId }
+    },
+    onSuccess: (data) => {
+      if (data?.group?.id) {
+        queryClient.invalidateQueries({ queryKey: groupKeys.detail(data.group.id) })
+      }
+      queryClient.invalidateQueries({ queryKey: groupKeys.all })
+      queryClient.invalidateQueries({ queryKey: groupKeys.memberOf(data.userId) })
+    },
+  })
+}
+
+
 
 // Fetch invitations for a group
 export function useGroupInvitations(groupId: string) {

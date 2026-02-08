@@ -1,12 +1,15 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, useMatch } from '@tanstack/react-router'
 import { useAuthContext } from '@/lib/auth-context'
 import {
   useOwnedGroups,
   useMemberGroups,
   useCreateGroup,
   useDeleteGroup,
+  usePendingInvitations,
+  useAcceptInvitation,
+  useDeclineInvitation,
 } from '@/hooks/use-groups'
-import { GroupCard, AddGroupForm } from '@/components/group'
+import { GroupCard, AddGroupForm, PendingInvitations } from '@/components/group'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowLeft } from 'lucide-react'
@@ -15,23 +18,41 @@ import { AuthGuard } from '@/components/auth-guard'
 export const Route = createFileRoute('/groups')({
   component: () => (
     <AuthGuard>
-      <GroupsPage />
+      <GroupsLayout />
     </AuthGuard>
   ),
 })
 
+function GroupsLayout() {
+  // Check if we're on a child route (group detail page)
+  const match = useMatch({ from: '/groups/$groupId', shouldThrow: false })
+  
+  // If on child route, render the Outlet (child component)
+  if (match) {
+    return <Outlet />
+  }
+  
+  // Otherwise render the groups list page
+  return <GroupsPage />
+}
+
 function GroupsPage() {
   const { user, userId, logout } = useAuthContext()
+  const userEmail = user?.signInDetails?.loginId ?? ''
 
   const { data: ownedGroups = [], isLoading: ownedLoading, error: ownedError } = useOwnedGroups(userId)
   const { data: memberGroups = [], isLoading: memberLoading, error: memberError } = useMemberGroups(userId)
+  const { data: pendingInvitations = [], isLoading: invitationsLoading } = usePendingInvitations(userEmail)
   const createGroup = useCreateGroup()
   const deleteGroup = useDeleteGroup()
+  const acceptInvitation = useAcceptInvitation()
+  const declineInvitation = useDeclineInvitation()
 
   const handleAddGroup = (name: string, description?: string) => {
     createGroup.mutate({
       name,
       description,
+      ownerEmail: userEmail,
       memberIds: [],
     })
   }
@@ -46,7 +67,15 @@ function GroupsPage() {
     }
   }
 
-  const isLoading = ownedLoading || memberLoading
+  const handleAcceptInvitation = (invitationId: string, groupId: string) => {
+    acceptInvitation.mutate({ invitationId, groupId, userId, userEmail })
+  }
+
+  const handleDeclineInvitation = (invitationId: string) => {
+    declineInvitation.mutate({ invitationId })
+  }
+
+  const isLoading = ownedLoading || memberLoading || invitationsLoading
   const error = ownedError || memberError
 
   return (
@@ -73,6 +102,15 @@ function GroupsPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+        {/* Pending Invitations Section */}
+        <PendingInvitations
+          invitations={pendingInvitations}
+          onAccept={handleAcceptInvitation}
+          onDecline={handleDeclineInvitation}
+          isAccepting={acceptInvitation.isPending}
+          isDeclining={declineInvitation.isPending}
+        />
+
         {/* Create Group Section */}
         <Card>
           <CardHeader>

@@ -19,4 +19,7 @@ export const client = {
   get models() {
     return getClient().models;
   },
+  get mutations() {
+    return getClient().mutations;
+  },
 };

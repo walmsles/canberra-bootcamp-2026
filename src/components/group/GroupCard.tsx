@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Trash2, ChevronRight, Users } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import type { ListGroup } from '@/hooks/use-groups'
 import { cn } from '@/lib/utils'
 
@@ -13,7 +13,12 @@ interface GroupCardProps {
 }
 
 export function GroupCard({ group, onDelete, isOwner }: GroupCardProps) {
+  const navigate = useNavigate()
   const memberCount = group.memberIds?.length ?? 0
+
+  const handleNavigate = () => {
+    navigate({ to: '/groups/$groupId', params: { groupId: group.id } })
+  }
 
   return (
     <Card className="hover:bg-accent/50 transition-colors">
@@ -34,6 +39,7 @@ export function GroupCard({ group, onDelete, isOwner }: GroupCardProps) {
                 size="icon-sm"
                 onClick={(e) => {
                   e.preventDefault()
+                  e.stopPropagation()
                   onDelete(group.id)
                 }}
                 aria-label={`Delete "${group.name}"`}
@@ -41,11 +47,14 @@ export function GroupCard({ group, onDelete, isOwner }: GroupCardProps) {
                 <Trash2 className="h-4 w-4 text-destructive" />
               </Button>
             )}
-            <Link to="/groups/$groupId" params={{ groupId: group.id }}>
-              <Button variant="ghost" size="icon-sm" aria-label={`View "${group.name}"`}>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              size="icon-sm" 
+              onClick={handleNavigate}
+              aria-label={`View "${group.name}"`}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </CardHeader>

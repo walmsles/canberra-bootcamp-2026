@@ -613,7 +613,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerygetListGroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -793,7 +793,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistListGroupsauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c1ce3de48031b464305ceb9e395f678a3b20624ac933e4eac73ecad134f3670.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e21c25d672044ffdc4e6c6558f0a9edc0b9bd6f8feb3473c27b5047698676ee6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -995,7 +995,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "MutationcreateListGroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5d8d85bb33cc5a3f994ca63dda914dec811806447b5a27925bdae57024054bb7.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/79a32997d1469fc203cc9b1b6f1fcdf9af2546dda60c2983c0ca7dc0e579fdf6.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1209,7 +1209,7 @@
      "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
     },
     "ResponseMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e8f805a11b73f370d2e5dd3b1e8270a81cd105cac4199f7202657b116d383721.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/37dbcc9153b4970dd6fb0b3b2040502976ccb207229d51543e3876b01c91d0d7.vtl"
     }
    },
    "DependsOn": [
@@ -1585,7 +1585,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononCreateListGroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1732,7 +1732,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononUpdateListGroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1879,7 +1879,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononDeleteListGroupauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fec91648250a131018797743bebf85ff93a89721aa3b4188d4f2aa398726261a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/32cebf852c7fdc9f4e053b8ec3a5e47c335f8dc87f347b1e17ff1c76a5863af4.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2076,19 +2076,19 @@
     }
    }
   },
-  "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupDataSource2768A72BName": {
-   "Value": {
-    "Fn::GetAtt": [
-     "ListGroupDataSource",
-     "Name"
-    ]
-   }
-  },
   "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupTableF9974375TableArn": {
    "Value": {
     "Fn::GetAtt": [
      "ListGroupTable",
      "TableArn"
+    ]
+   }
+  },
+  "amplifycanberramwalmsleysandboxf2b7c17c4edataamplifyDataListGroupListGroupDataSource2768A72BName": {
+   "Value": {
+    "Fn::GetAtt": [
+     "ListGroupDataSource",
+     "Name"
     ]
    }
   }

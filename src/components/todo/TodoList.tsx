@@ -14,9 +14,11 @@ interface TodoListProps {
   onDelete: (id: string) => void
   onStatusChange?: (id: string, status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETE') => void
   isLoading?: boolean
+  canDeleteTodos?: boolean
+  currentUserId?: string
 }
 
-export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, isLoading }: TodoListProps) {
+export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, isLoading, canDeleteTodos = true, currentUserId }: TodoListProps) {
   const [filterTag, setFilterTag] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<SortOption>('default')
 
@@ -137,6 +139,7 @@ export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, is
               onToggleComplete={onToggleComplete}
               onDelete={onDelete}
               onStatusChange={onStatusChange}
+              canDelete={canDeleteTodos || todo.owner === currentUserId}
             />
           ))}
         </div>

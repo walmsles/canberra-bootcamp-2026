@@ -13,7 +13,11 @@
   "dependencies": {
     "@aws-amplify/backend": "^1.20.0",
     "@aws-amplify/backend-cli": "^1.8.2",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query-devtools": "^5.91.3",
     "@tanstack/react-router": "^1.158.1",
     "@tanstack/react-router-devtools": "^1.158.1",
     "aws-amplify": "^6.16.2",
@@ -26,10 +30,14 @@
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "@aws-lambda-powertools/logger": "^2.30.2",
+    "@aws-sdk/client-dynamodb": "^3.985.0",
+    "@aws-sdk/lib-dynamodb": "^3.985.0",
     "@eslint/js": "^9.39.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/router-devtools": "^1.158.1",
     "@tanstack/router-plugin": "^1.158.1",
+    "@types/aws-lambda": "^8.10.160",
     "@types/node": "^24.10.11",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

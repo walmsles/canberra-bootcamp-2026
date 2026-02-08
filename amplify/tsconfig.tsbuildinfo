@@ -1,1 +1,1 @@
-{"root":["./backend.ts","./auth/resource.ts","./data/resource.ts"],"version":"5.9.3"}
+{"root":["./backend.ts","./auth/resource.ts","./data/resource.ts","./functions/accept-invitation/handler.ts","./functions/accept-invitation/resource.ts"],"version":"5.9.3"}

@@ -4,6 +4,8 @@ import { UserMinus, Crown } from 'lucide-react'
 
 interface MemberListProps {
   memberIds: string[]
+  memberEmails?: string[]
+  ownerEmail?: string
   ownerId: string
   currentUserId: string
   onRevoke: (memberId: string) => void
@@ -12,6 +14,8 @@ interface MemberListProps {
 
 export function MemberList({
   memberIds,
+  memberEmails = [],
+  ownerEmail,
   ownerId,
   currentUserId,
   onRevoke,
@@ -19,6 +23,14 @@ export function MemberList({
 }: MemberListProps) {
   const isOwner = currentUserId === ownerId
   const allMembers = [ownerId, ...memberIds.filter((id) => id !== ownerId)]
+
+  // Create a map of memberId to email
+  const emailMap = new Map<string, string>()
+  memberIds.forEach((id, index) => {
+    if (memberEmails[index]) {
+      emailMap.set(id, memberEmails[index])
+    }
+  })
 
   if (allMembers.length === 0) {
     return (
@@ -33,6 +45,10 @@ export function MemberList({
       {allMembers.map((memberId) => {
         const isMemberOwner = memberId === ownerId
         const isCurrentUser = memberId === currentUserId
+        const email = isMemberOwner ? ownerEmail : emailMap.get(memberId)
+        const displayName = isCurrentUser 
+          ? 'You' 
+          : email || `User ${memberId.slice(0, 8)}...`
 
         return (
           <div
@@ -45,14 +61,12 @@ export function MemberList({
                   <Crown className="h-4 w-4 text-primary" />
                 ) : (
                   <span className="text-sm font-medium text-primary">
-                    {memberId.slice(0, 2).toUpperCase()}
+                    {(email || memberId).slice(0, 2).toUpperCase()}
                   </span>
                 )}
               </div>
               <div>
-                <p className="text-sm font-medium">
-                  {isCurrentUser ? 'You' : `User ${memberId.slice(0, 8)}...`}
-                </p>
+                <p className="text-sm font-medium">{displayName}</p>
                 <div className="flex items-center gap-2">
                   {isMemberOwner ? (
                     <Badge variant="default" className="text-xs">
@@ -73,7 +87,7 @@ export function MemberList({
                 size="icon-sm"
                 onClick={() => onRevoke(memberId)}
                 disabled={isLoading}
-                aria-label={`Remove member ${memberId}`}
+                aria-label={`Remove member ${displayName}`}
               >
                 <UserMinus className="h-4 w-4 text-destructive" />
               </Button>

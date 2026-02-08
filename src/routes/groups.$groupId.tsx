@@ -5,6 +5,7 @@ import {
   useDeleteGroup,
   useInviteMember,
   useRevokeMember,
+  useLeaveGroup,
   useGroupInvitations,
 } from '@/hooks/use-groups'
 import { useLists, useUpdateList } from '@/hooks/use-lists'
@@ -12,7 +13,7 @@ import { InviteMemberDialog, MemberList } from '@/components/group'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ArrowLeft, Trash2, Share2, X } from 'lucide-react'
+import { ArrowLeft, Trash2, Share2, X, LogOut } from 'lucide-react'
 import { AuthGuard } from '@/components/auth-guard'
 
 export const Route = createFileRoute('/groups/$groupId')({
@@ -35,9 +36,12 @@ function GroupDetailPage() {
   const deleteGroup = useDeleteGroup()
   const inviteMember = useInviteMember()
   const revokeMember = useRevokeMember()
+  const leaveGroup = useLeaveGroup()
   const updateList = useUpdateList()
 
   const isOwner = group?.owner === userId
+  const isMember = group?.memberIds?.includes(userId) ?? false
+  const hasAccess = isOwner || isMember
 
   // Filter lists that are shared with this group
   const sharedLists = userLists.filter((list) => list.groupId === groupId)
@@ -57,6 +61,20 @@ function GroupDetailPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-destructive mb-4">{groupError?.message || 'Group not found'}</p>
+          <Link to="/groups">
+            <Button variant="outline">Back to Groups</Button>
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  // Check if user has access to this group
+  if (!hasAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-destructive mb-4">You don&apos;t have access to this group</p>
           <Link to="/groups">
             <Button variant="outline">Back to Groups</Button>
           </Link>
@@ -116,6 +134,22 @@ function GroupDetailPage() {
     })
   }
 
+  const handleLeaveGroup = () => {
+    if (confirm('Are you sure you want to leave this group? You will lose access to shared lists.')) {
+      leaveGroup.mutate(
+        {
+          groupId,
+          userId,
+        },
+        {
+          onSuccess: () => {
+            navigate({ to: '/groups' })
+          },
+        }
+      )
+    }
+  }
+
   const pendingInvitations = invitations.filter((inv) => inv.status === 'PENDING')
 
   return (
@@ -146,6 +180,18 @@ function GroupDetailPage() {
                 aria-label="Delete group"
               >
                 <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            )}
+            {!isOwner && isMember && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLeaveGroup}
+                disabled={leaveGroup.isPending}
+                aria-label="Leave group"
+              >
+                <LogOut className="h-4 w-4 mr-1" />
+                Leave
               </Button>
             )}
             <span className="text-xs md:text-sm text-muted-foreground hidden sm:inline truncate max-w-[100px] md:max-w-none">
@@ -196,6 +242,8 @@ function GroupDetailPage() {
           <CardContent>
             <MemberList
               memberIds={(group.memberIds ?? []).filter((id): id is string => id !== null)}
+              memberEmails={(group.memberEmails ?? []).filter((e): e is string => e !== null)}
+              ownerEmail={group.ownerEmail ?? undefined}
               ownerId={group.owner ?? ''}
               currentUserId={userId}
               onRevoke={handleRevokeMember}
