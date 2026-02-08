@@ -1,0 +1,12 @@
+{
+  "name": "task-agents",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@serverless-dna/sop-agents": "^0.1.0",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-lambda-powertools/logger": "^2.0.0",
+    "uuid": "^11.0.0"
+  }
+}

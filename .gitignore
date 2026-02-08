@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .amplify/
+
+# Auto-generated SOP bundle
+amplify/functions/task-agents/sops-bundle.ts

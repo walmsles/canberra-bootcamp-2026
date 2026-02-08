@@ -34,6 +34,8 @@ const schema = a.schema({
     tags: a.string().array(),
     reminderMinutes: a.integer(), // Minutes before due date
     reminderSent: a.boolean().default(false),
+    priority: a.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']),
+    effortHours: a.float(),
     listId: a.id().required(),
     list: a.belongsTo('TodoList', 'listId'),
   }).authorization(allow => [
