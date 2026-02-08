@@ -48,13 +48,13 @@ Implement the `task-agents` Lambda function using `@serverless-dna/sop-agents`, 
 - [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Wire function into Amplify backend
-  - [ ] 5.1 Update `amplify/backend.ts` to import and register `taskAgents`, grant DynamoDB table access (read-write for TodoItem, read for TodoList), pass table names as env vars, and add Bedrock IAM policy
+- [x] 5. Wire function into Amplify backend
+  - [x] 5.1 Update `amplify/backend.ts` to import and register `taskAgents`, grant DynamoDB table access (read-write for TodoItem, read for TodoList), pass table names as env vars, and add Bedrock IAM policy
     - _Requirements: 1.3, 1.4, 1.5, 1.6_
-  - [ ] 5.2 Register the handler tools with the orchestrator in `handler.ts` — import all three tool modules and pass them to the orchestrator initialization
+  - [x] 5.2 Register the handler tools with the orchestrator in `handler.ts` — import all three tool modules and pass them to the orchestrator initialization
     - _Requirements: 3.1, 4.1, 5.1_
 
-- [ ] 6. Final checkpoint - Ensure all tests pass and linting is clean
+- [x] 6. Final checkpoint - Ensure all tests pass and linting is clean
   - Run `npm run lint` and `npm run test`, fix all errors and warnings.
 
 ## Notes
