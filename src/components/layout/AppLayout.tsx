@@ -30,6 +30,8 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { List, Plus, Trash2, Settings, Menu, X, Users, GripVertical } from 'lucide-react'
 import { ThemeToggleSimple } from '@/components/ui/theme-toggle'
+import { DailyPlanCard } from '@/components/ai/DailyPlanCard'
+import { TaskRecommendationCard } from '@/components/ai/TaskRecommendationCard'
 
 // Sortable list item component
 interface SortableListItemProps {
@@ -421,7 +423,14 @@ export function AppLayout() {
 
         {/* Main content area */}
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          <Card className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto space-y-4 md:space-y-6">
+          {/* AI Dashboard Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <DailyPlanCard lists={lists.map(l => ({ id: l.id, name: l.name }))} />
+            <TaskRecommendationCard lists={lists.map(l => ({ id: l.id, name: l.name }))} />
+          </div>
+
+          <Card>
             <CardHeader>
               <CardTitle className="text-lg md:text-xl">
                 {selectedList ? selectedList.name : 'All Todos'}
@@ -453,6 +462,7 @@ export function AppLayout() {
               />
             </CardContent>
           </Card>
+          </div>
         </main>
       </div>
     </div>

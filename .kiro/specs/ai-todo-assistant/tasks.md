@@ -72,24 +72,24 @@ Frontend integration of four AI agent capabilities into the existing todo app. T
     - Pass `listId` to the dialog
     - _Requirements: 2.1_
 
-- [ ] 7. Create Dashboard AI cards
-  - [ ] 7.1 Create `src/components/ai/DailyPlanCard.tsx` using shadcn Card with a "Plan My Day" button, optional list filter Select, loading Skeleton, and prioritized task list display
+- [x] 7. Create Dashboard AI cards
+  - [x] 7.1 Create `src/components/ai/DailyPlanCard.tsx` using shadcn Card with a "Plan My Day" button, optional list filter Select, loading Skeleton, and prioritized task list display
     - Use `usePlanDay` hook
     - Only fetch when user clicks the button (not on mount)
     - Show error with retry on failure
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-  - [ ] 7.2 Create `src/components/ai/TaskRecommendationCard.tsx` using shadcn Card with a "What Should I Do Next?" button, optional list filter Select, loading Skeleton, and recommendation display with reasoning
+  - [x] 7.2 Create `src/components/ai/TaskRecommendationCard.tsx` using shadcn Card with a "What Should I Do Next?" button, optional list filter Select, loading Skeleton, and recommendation display with reasoning
     - Use `useRecommendTask` hook
     - Only fetch when user clicks the button (not on mount)
     - Show error with retry on failure
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-  - [ ] 7.3 Integrate DailyPlanCard and TaskRecommendationCard into the Dashboard by updating `src/components/layout/AppLayout.tsx` to render the AI cards above the todo list area
+  - [x] 7.3 Integrate DailyPlanCard and TaskRecommendationCard into the Dashboard by updating `src/components/layout/AppLayout.tsx` to render the AI cards above the todo list area
     - Pass available lists for the optional list filter
     - _Requirements: 3.1, 3.5, 4.1, 4.5_
 
-- [ ] 8. Final checkpoint
+- [x] 8. Final checkpoint
   - Ensure all tests pass and linting passes (`npm run lint`, `npm run test`), ask the user if questions arise.
 
 ## Notes
