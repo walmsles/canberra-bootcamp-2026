@@ -38,14 +38,14 @@ Implement the `task-agents` Lambda function using `@serverless-dna/sop-agents`, 
     - **Property 5: get_lists returns id and name**
     - **Validates: Requirements 5.2**
 
-- [ ] 3. Implement query enrichment and handler wiring
-  - [ ] 3.1 Extract query enrichment into a testable function in `amplify/functions/task-agents/enrich-query.ts` and wire it into the handler
+- [x] 3. Implement query enrichment and handler wiring
+  - [x] 3.1 Extract query enrichment into a testable function in `amplify/functions/task-agents/enrich-query.ts` and wire it into the handler
     - _Requirements: 2.4, 2.5, 2.6_
   - [ ]* 3.2 Write property test for query enrichment
     - **Property 1: Query enrichment produces correct format**
     - **Validates: Requirements 2.4, 2.5**
 
-- [ ] 4. Checkpoint - Ensure all tests pass
+- [x] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 5. Wire function into Amplify backend
