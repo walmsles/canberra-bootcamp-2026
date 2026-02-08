@@ -4,7 +4,7 @@ description: Decomposes project briefs into actionable task lists with prioritie
 version: 1.0.0
 type: agent
 tools:
-  - create_task
+  - create_tasks
   - get_lists
 ---
 
@@ -48,11 +48,13 @@ Break the project into individual tasks, each scoped to 90 minutes or less of es
 
 ### 4. Create Tasks
 
-Use `create_task` to create each task in the target list.
+Collect all decomposed tasks into an array, then call `create_tasks` once with the `listId` and the full tasks array.
 
 **Constraints:**
-- You MUST provide `title` and `listId` for every task
-- You SHOULD include `priority`, `dueDate`, `tags`, and `estimatedMinutes` when calling `create_task`
+- You MUST collect all tasks into a single array before making any tool calls
+- You MUST call `create_tasks` exactly once, passing the `listId` at the top level and the full `tasks` array
+- Each task in the array MUST include `title`
+- You SHOULD include `priority`, `dueDate`, `tags`, and `effortHours` for each task in the array
 - You MUST use the enriched date/time context to resolve any relative dates
 
 ### 5. Return Summary

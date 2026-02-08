@@ -5,10 +5,14 @@ import { createOrchestrator } from '@serverless-dna/sop-agents';
 import { FunctionTool } from '@strands-agents/sdk';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { enrichQuery } from './enrich-query.js';
+import { validateAgentResponse } from './validate-response.js';
 import { allSops } from './sops-bundle.js';
 import { createTask } from './tools/create-task.js';
 import { getTasks } from './tools/get-tasks.js';
 import { getLists } from './tools/get-lists.js';
+import { createTasks } from './tools/create-tasks.js';
+
+const KNOWN_QUERY_TYPES = ['breakdownProject', 'analyzeTask', 'planDay', 'recommendTask'] as const;
 
 const logger = new Logger({ serviceName: 'task-agents' });
 
@@ -84,7 +88,64 @@ const getListsTool = new FunctionTool({
   },
 });
 
-export const handler = async (event: { arguments: { query: string } }) => {
+const createTasksTool = new FunctionTool({
+  name: 'create_tasks',
+  description: 'Create multiple todo items in a single batch call',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      listId: { type: 'string', description: 'ID of the list to add tasks to (required)' },
+      tasks: {
+        type: 'array',
+        description: 'Array of task objects to create (required)',
+        items: {
+          type: 'object',
+          properties: {
+            title: { type: 'string', description: 'Task title (required)' },
+            description: { type: 'string', description: 'Task description' },
+            status: { type: 'string', enum: ['PENDING', 'IN_PROGRESS', 'COMPLETE'], description: 'Task status' },
+            priority: { type: 'string', enum: ['LOW', 'MEDIUM', 'HIGH', 'URGENT'], description: 'Task priority' },
+            effortHours: { type: 'number', description: 'Estimated effort in hours' },
+            dueDate: { type: 'string', description: 'Due date in ISO 8601 format' },
+            tags: { type: 'array', items: { type: 'string' }, description: 'Tags for the task' },
+            reminderMinutes: { type: 'number', description: 'Minutes before due date to send reminder' },
+          },
+          required: ['title'],
+        },
+      },
+    },
+    required: ['listId', 'tasks'],
+  },
+  callback: async (input: unknown) => {
+    const typedInput = input as { listId: string; tasks: Array<Record<string, unknown>> };
+    const result = await createTasks(typedInput, docClient, todoItemTable, 'agent');
+    return JSON.stringify(result);
+  },
+});
+
+
+function buildSpecialistPrompt(args: Record<string, unknown>, now: Date): string {
+  const timestamp = now.toISOString();
+  const dateOnly = timestamp.split('T')[0];
+  const timeOnly = now.toTimeString().split(' ')[0];
+  const dayOfWeek = now.toLocaleDateString('en-US', { weekday: 'long' });
+
+  const lines = [
+    `Current Date and Time: ${timestamp}`,
+    `Date: ${dateOnly} (${dayOfWeek})`,
+    `Time: ${timeOnly}`,
+  ];
+
+  for (const [key, value] of Object.entries(args)) {
+    if (value !== undefined) {
+      lines.push(`${key}: ${String(value)}`);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+export const handler = async (event: { arguments: Record<string, unknown> }) => {
   logger.info('Received event', { event });
 
   writeSopsToDisk();
@@ -93,18 +154,34 @@ export const handler = async (event: { arguments: { query: string } }) => {
     directory: SOPS_DIR,
     tools: {
       create_task: createTaskTool,
+      create_tasks: createTasksTool,
       get_tasks: getTasksTool,
       get_lists: getListsTool,
     },
   });
 
-  const enrichedQuery = enrichQuery(event.arguments.query, new Date());
+  const args = event.arguments;
+  const now = new Date();
+  let prompt: string;
 
-  logger.info('Invoking orchestrator', { enrichedQuery });
+  if ('queryType' in args && typeof args.queryType === 'string') {
+    const queryType = args.queryType;
 
-  const result = await orchestrator.invoke(enrichedQuery);
+    if (!KNOWN_QUERY_TYPES.includes(queryType as (typeof KNOWN_QUERY_TYPES)[number])) {
+      logger.warn('Unrecognized queryType, falling back to task-management', { queryType });
+    }
+
+    prompt = buildSpecialistPrompt(args, now);
+  } else {
+    prompt = enrichQuery(args.query as string, now);
+  }
+
+  logger.info('Invoking orchestrator', { prompt });
+
+  const result = await orchestrator.invoke(prompt);
 
   logger.info('Orchestrator result', { result });
 
-  return result;
+  const validated = validateAgentResponse(String(result));
+  return JSON.stringify(validated);
 };

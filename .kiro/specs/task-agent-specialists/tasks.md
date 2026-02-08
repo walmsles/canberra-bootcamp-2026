@@ -49,8 +49,8 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - Verify `allSops` record contains all 6 entries
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
-- [ ] 3. Create response validator and update handler
-  - [ ] 3.1 Create `amplify/functions/task-agents/validate-response.ts`
+- [x] 3. Create response validator and update handler
+  - [x] 3.1 Create `amplify/functions/task-agents/validate-response.ts`
     - Define `AgentResponse` interface with `success`, `data`, `error`, `rawResponse` fields
     - Implement `validateAgentResponse(raw: string): AgentResponse`
     - Attempt `JSON.parse`; on success return `{ success: true, data: parsed }`
@@ -64,7 +64,7 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - **Validates: Requirements 9.2, 9.3**
     - Include unit tests for empty string, plain text, partial JSON, nested objects
 
-  - [ ] 3.3 Update `amplify/functions/task-agents/handler.ts`
+  - [x] 3.3 Update `amplify/functions/task-agents/handler.ts`
     - Import `validateAgentResponse` from `./validate-response.js`
     - Update event type to accept both legacy `{ query: string }` and new `{ queryType: string; [key: string]: unknown }` shapes
     - When `queryType` is present, build prompt with queryType and arguments alongside enriched timestamp context
@@ -73,7 +73,7 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - Log warning for unrecognized `queryType` values
     - _Requirements: 1.1, 1.6, 1.7, 8.1, 8.2, 8.3, 9.1, 9.2, 9.3_
 
-  - [ ] 3.4 Update `amplify/functions/task-agents/resource.ts` to increase timeout
+  - [x] 3.4 Update `amplify/functions/task-agents/resource.ts` to increase timeout
     - Increase `timeoutSeconds` from 60 to 120 for Project Breakdown agent (multiple tool calls)
     - _Requirements: 3.2_
 
