@@ -38,6 +38,7 @@ graph TD
             T1[create_task]
             T2[get_tasks]
             T3[get_lists]
+            T4[create_tasks<br/>batch tool]
         end
 
         ORC[Orchestrator<br/>@serverless-dna/sop-agents]
@@ -54,9 +55,9 @@ graph TD
     ORC --> ORCH
     ORCH --> S1 & S2 & S3 & S4
     ORC --> S5
-    ORC --> T1 & T2 & T3
+    ORC --> T1 & T2 & T3 & T4
     ORC --> BED
-    T1 & T2 & T3 --> DDB
+    T1 & T2 & T3 & T4 --> DDB
 ```
 
 ### Routing Strategy
@@ -68,7 +69,7 @@ All SOPs (the orchestrator + 4 specialists + existing task-management) are writt
 The flow is:
 1. Handler writes all SOPs to `/tmp/sops` (unchanged pattern, now includes 5 new SOPs)
 2. Handler builds a prompt that includes the `queryType` and arguments alongside enriched timestamp context
-3. Handler creates the orchestrator with all tools (specialist SOPs declare which tools they need)
+3. Handler creates the orchestrator with all 4 tools: `create_task`, `create_tasks`, `get_tasks`, `get_lists` (specialist SOPs declare which tools they need)
 4. The orchestrator SOP reads the `queryType` and delegates to the matching specialist agent
 5. The specialist agent executes with its declared tools and returns its JSON output
 6. Handler validates the JSON response
@@ -173,7 +174,7 @@ The handler is updated to:
 2. Check if `queryType` is present in event arguments
 3. If present: build prompt with queryType and arguments alongside enriched timestamp
 4. If absent: use existing `enrichQuery` on `event.arguments.query` (backward compatible)
-5. Create orchestrator with all tools (unchanged — specialist SOPs declare which tools they use)
+5. Create orchestrator with all 4 tools: `create_task`, `create_tasks`, `get_tasks`, `get_lists` (specialist SOPs declare which tools they use)
 6. Invoke orchestrator with the constructed prompt
 7. Validate the response with `validateAgentResponse`
 8. Return the JSON string
@@ -228,7 +229,7 @@ recommendTask: a
 Six SOP markdown files in `amplify/functions/task-agents/sops/`:
 
 - `orchestrator.md` — Type: `orchestrator`. No tools (tools are declared on individual agent SOPs). The top-level routing SOP that reads `queryType` from the prompt and delegates to the correct specialist procedure. Contains explicit routing rules and output format enforcement.
-- `project-breakdown.md` — Tools: `create_task`, `get_lists`. Instructs the model to decompose briefs into appropriately-scoped tasks (each ≤90 minutes of effort) with priorities, due dates, tags, and effort estimates. Output format specified as JSON.
+- `project-breakdown.md` — Tools: `create_tasks`, `get_lists`. Uses the batch `create_tasks` tool (from the `batch-create-tasks` feature) to create all decomposed tasks in a single call. Instructs the model to decompose briefs into appropriately-scoped tasks (each ≤90 minutes of effort) with priorities, due dates, tags, and effort estimates. Output format specified as JSON.
 - `task-analyzer.md` — Tools: none. Instructs the model to extract priority, estimated minutes, due date, tags, and reasoning from a task description. Output format specified as JSON.
 - `daily-planner.md` — Tools: `get_tasks`. Instructs the model to fetch incomplete tasks, apply energy management scheduling, limit to 8 hours, and return time blocks. Output format specified as JSON.
 - `task-recommender.md` — Tools: `get_tasks`. Instructs the model to fetch incomplete tasks, apply Eisenhower Matrix scoring with time-of-day energy consideration, and recommend one task. Output format specified as JSON.

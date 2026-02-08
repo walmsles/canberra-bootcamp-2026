@@ -5,6 +5,7 @@
   "dependencies": {
     "@serverless-dna/sop-agents": "^0.1.0",
     "@strands-agents/sdk": "^0.2.0",
+    "openai": "^6.7.0",
     "@aws-sdk/client-dynamodb": "^3.0.0",
     "@aws-sdk/lib-dynamodb": "^3.0.0",
     "@aws-lambda-powertools/logger": "^2.0.0",

@@ -1,5 +1,4 @@
-import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import { BatchWriteCommand } from '@aws-sdk/lib-dynamodb';
+import { DynamoDBDocumentClient, BatchWriteCommand, BatchWriteCommandOutput } from '@aws-sdk/lib-dynamodb';
 import { Logger } from '@aws-lambda-powertools/logger';
 import { buildCreateTaskItem, CreateTaskInput } from './create-task.js';
 
@@ -77,7 +76,7 @@ export async function createTasks(
       if (!unprocessed || unprocessed.length === 0) break;
 
       try {
-        const command = new BatchWriteCommand({
+        const command: BatchWriteCommand = new BatchWriteCommand({
           RequestItems: {
             [tableName]: unprocessed.map((item) => ({
               PutRequest: { Item: item },
@@ -85,13 +84,13 @@ export async function createTasks(
           },
         });
 
-        const response = await docClient.send(command);
+        const response: BatchWriteCommandOutput = await docClient.send(command);
 
         const remaining = response.UnprocessedItems?.[tableName];
         if (remaining && remaining.length > 0) {
           const writtenThisCall = unprocessed.length - remaining.length;
           totalWritten += writtenThisCall;
-          unprocessed = remaining.map((r) => r.PutRequest!.Item as Record<string, unknown>);
+          unprocessed = remaining.map((r: { PutRequest?: { Item?: Record<string, unknown> } }) => r.PutRequest!.Item as Record<string, unknown>);
 
           if (attempt < MAX_RETRIES) {
             const delay = BASE_DELAY_MS * Math.pow(2, attempt);

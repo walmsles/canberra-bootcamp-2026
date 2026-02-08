@@ -2,7 +2,7 @@
 
 ## Overview
 
-Add four specialized AI agents by creating new SOP files (including an orchestrator), regenerating the SOP bundle, updating the handler to pass query context, adding a response validator, and wiring up GraphQL custom queries. The `@serverless-dna/sop-agents` framework handles routing via the orchestrator SOP — no custom router module needed.
+Add four specialized AI agents by creating new SOP files (including an orchestrator), regenerating the SOP bundle, updating the handler to pass query context, adding a response validator, and wiring up GraphQL custom queries. The `@serverless-dna/sop-agents` framework handles routing via the orchestrator SOP — no custom router module needed. The `create_tasks` batch tool (from the `batch-create-tasks` feature) is already implemented and registered in the handler, and the `project-breakdown.md` SOP already uses it.
 
 ## Tasks
 
@@ -13,7 +13,8 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
   - [x] 1.2 Create `amplify/functions/task-agents/sops/project-breakdown.md`
-    - Use `type: agent` with tools: `create_task`, `get_lists`
+    - Use `type: agent` with tools: `create_tasks`, `get_lists` (uses the batch `create_tasks` tool from the `batch-create-tasks` feature instead of `create_task`)
+    - Instruct agent to collect all tasks into a single array and call `create_tasks` once with the `listId` and full tasks array
     - Instruct agent to verify target list via `get_lists`, decompose brief into tasks scoped to ≤90 min each
     - Instruct agent to assign priorities, due dates (backward from deadline), tags, effort estimates
     - Define JSON output format: `projectName`, `totalTasks`, `estimatedTotalHours`, `workStreams`, `criticalPath`, `projectDuration`, `summary`
@@ -47,6 +48,7 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
   - [x] 2.1 Run `bundle-sops.ts` to regenerate `sops-bundle.ts` with all 6 SOPs
     - Verify the generated bundle exports `orchestrator`, `project_breakdown`, `task_analyzer`, `daily_planner`, `task_recommender`, and `task_management`
     - Verify `allSops` record contains all 6 entries
+    - Note: The SOP bundle was regenerated after `project-breakdown.md` was updated to use `create_tasks` (from `batch-create-tasks` feature)
     - _Requirements: 7.1, 7.2, 7.3, 7.4_
 
 - [x] 3. Create response validator and update handler
@@ -66,6 +68,8 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
 
   - [x] 3.3 Update `amplify/functions/task-agents/handler.ts`
     - Import `validateAgentResponse` from `./validate-response.js`
+    - Import `createTasks` from `./tools/create-tasks.js` and register `createTasksTool` with name `create_tasks` (already done via `batch-create-tasks` feature)
+    - Register all 4 tools in the orchestrator: `create_task`, `create_tasks`, `get_tasks`, `get_lists`
     - Update event type to accept both legacy `{ query: string }` and new `{ queryType: string; [key: string]: unknown }` shapes
     - When `queryType` is present, build prompt with queryType and arguments alongside enriched timestamp context
     - When `queryType` is absent, preserve existing behavior (enrichQuery on `query` field)
@@ -77,8 +81,8 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - Increase `timeoutSeconds` from 60 to 120 for Project Breakdown agent (multiple tool calls)
     - _Requirements: 3.2_
 
-- [ ] 4. Add GraphQL custom queries
-  - [ ] 4.1 Update `amplify/data/resource.ts` with four new custom queries
+- [x] 4. Add GraphQL custom queries
+  - [x] 4.1 Update `amplify/data/resource.ts` with four new custom queries
     - Add `breakdownProject` query: `listId` (required), `projectBrief` (required), `deadline` (optional), returns string
     - Add `analyzeTask` query: `taskDescription` (required), returns string
     - Add `planDay` query: `date` (required), `listId` (optional), returns string
@@ -88,6 +92,6 @@ Add four specialized AI agents by creating new SOP files (including an orchestra
     - Import `taskAgents` from the function resource
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-- [ ] 5. Final checkpoint - Ensure lint and tests pass
+- [x] 5. Final checkpoint - Ensure lint and tests pass
   - Run `npm run lint` and `npm run test`
   - Ensure all tests pass with no warnings or errors, ask the user if questions arise.

@@ -322,6 +322,22 @@
               "isRequired": false,
               "attributes": []
             },
+            "priority": {
+              "name": "priority",
+              "isArray": false,
+              "type": {
+                "enum": "TodoItemPriority"
+              },
+              "isRequired": false,
+              "attributes": []
+            },
+            "effortHours": {
+              "name": "effortHours",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
             "listId": {
               "name": "listId",
               "isArray": false,
@@ -685,6 +701,15 @@
             "COMPLETE"
           ]
         },
+        "TodoItemPriority": {
+          "name": "TodoItemPriority",
+          "values": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "URGENT"
+          ]
+        },
         "GroupInvitationStatus": {
           "name": "GroupInvitationStatus",
           "values": [
@@ -718,6 +743,82 @@
               "type": "String",
               "isRequired": false,
               "attributes": []
+            }
+          }
+        }
+      },
+      "queries": {
+        "breakdownProject": {
+          "name": "breakdownProject",
+          "isArray": false,
+          "type": "String",
+          "isRequired": false,
+          "arguments": {
+            "listId": {
+              "name": "listId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "projectBrief": {
+              "name": "projectBrief",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "deadline": {
+              "name": "deadline",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            }
+          }
+        },
+        "analyzeTask": {
+          "name": "analyzeTask",
+          "isArray": false,
+          "type": "String",
+          "isRequired": false,
+          "arguments": {
+            "taskDescription": {
+              "name": "taskDescription",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            }
+          }
+        },
+        "planDay": {
+          "name": "planDay",
+          "isArray": false,
+          "type": "String",
+          "isRequired": false,
+          "arguments": {
+            "date": {
+              "name": "date",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true
+            },
+            "listId": {
+              "name": "listId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
+            }
+          }
+        },
+        "recommendTask": {
+          "name": "recommendTask",
+          "isArray": false,
+          "type": "String",
+          "isRequired": false,
+          "arguments": {
+            "listId": {
+              "name": "listId",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false
             }
           }
         }

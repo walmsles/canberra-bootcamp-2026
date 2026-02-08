@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { acceptInvitation } from '../functions/accept-invitation/resource';
+import { taskAgents } from '../functions/task-agents/resource';
 
 const schema = a.schema({
   // User preferences and settings
@@ -94,6 +95,47 @@ const schema = a.schema({
     }))
     .authorization(allow => [allow.authenticated()])
     .handler(a.handler.function(acceptInvitation)),
+
+  // Task Agent Specialist custom queries
+  // Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6
+  breakdownProject: a
+    .query()
+    .arguments({
+      listId: a.string().required(),
+      projectBrief: a.string().required(),
+      deadline: a.string(),
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(taskAgents)),
+
+  analyzeTask: a
+    .query()
+    .arguments({
+      taskDescription: a.string().required(),
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(taskAgents)),
+
+  planDay: a
+    .query()
+    .arguments({
+      date: a.string().required(),
+      listId: a.string(),
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(taskAgents)),
+
+  recommendTask: a
+    .query()
+    .arguments({
+      listId: a.string(),
+    })
+    .returns(a.string())
+    .authorization(allow => [allow.authenticated()])
+    .handler(a.handler.function(taskAgents)),
 });
 
 export type Schema = ClientSchema<typeof schema>;
