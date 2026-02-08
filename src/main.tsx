@@ -9,6 +9,7 @@ import './index.css'
 import { router } from './router'
 import { queryClient } from './lib/query-client'
 import { AuthProvider } from './lib/auth-context'
+import { ThemeProvider } from './lib/theme-context'
 import { ErrorBoundary } from './components/error-boundary'
 import { Toaster } from './components/ui/toaster'
 
@@ -25,13 +26,15 @@ Amplify.configure({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <Toaster />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   </StrictMode>,
 )

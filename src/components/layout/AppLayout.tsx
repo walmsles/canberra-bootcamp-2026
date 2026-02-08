@@ -29,6 +29,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { List, Plus, Trash2, Settings, Menu, X, Users, GripVertical } from 'lucide-react'
+import { ThemeToggleSimple } from '@/components/ui/theme-toggle'
 
 // Sortable list item component
 interface SortableListItemProps {
@@ -293,6 +294,7 @@ export function AppLayout() {
                 <Settings className="h-4 w-4" />
               </Button>
             </Link>
+            <ThemeToggleSimple />
             <Button variant="outline" size="sm" onClick={logout} className="text-xs md:text-sm">
               Sign out
             </Button>
