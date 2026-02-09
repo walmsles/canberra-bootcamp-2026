@@ -17,6 +17,17 @@ function getErrorMessage(error: unknown): string {
       return 'Invalid email or password.'
     }
     
+    // Bedrock/AI service errors
+    if (message.includes('not authorized') && message.includes('bedrock')) {
+      return 'AI service is not properly configured. Please contact support.'
+    }
+    if (message.includes('invalid model') || message.includes('model identifier')) {
+      return 'AI model configuration error. Please contact support.'
+    }
+    if (message.includes('explicit deny')) {
+      return 'AI service access is restricted. Please contact support.'
+    }
+    
     // Validation errors
     if (message.includes('cannot be empty')) {
       return error.message
@@ -52,15 +63,18 @@ function shouldRetry(failureCount: number, error: unknown): boolean {
   
   if (error instanceof Error) {
     const message = error.message.toLowerCase()
-    // Don't retry auth errors or validation errors
+    // Don't retry auth errors, validation errors, or permission errors
     if (
       message.includes('unauthorized') ||
+      message.includes('not authorized') || // Bedrock permission errors
       message.includes('not authenticated') ||
       message.includes('no current user') ||
       message.includes('validation') ||
       message.includes('cannot be empty') ||
       message.includes('permission') ||
-      message.includes('not found')
+      message.includes('not found') ||
+      message.includes('invalid model') || // Bedrock model errors
+      message.includes('explicit deny') // AWS SCP denials
     ) {
       return false
     }
@@ -100,7 +114,7 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: true,
     },
     mutations: {
-      retry: shouldRetry,
+      retry: false, // Disable retries for mutations - they're user-initiated actions
       retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
     },
   },

@@ -240,7 +240,8 @@
                     "allow": "private",
                     "operations": [
                       "read",
-                      "update"
+                      "update",
+                      "delete"
                     ]
                   }
                 ]
@@ -411,6 +412,15 @@
               "properties": {
                 "rules": [
                   {
+                    "allow": "private",
+                    "operations": [
+                      "read",
+                      "create",
+                      "update",
+                      "delete"
+                    ]
+                  },
+                  {
                     "provider": "userPools",
                     "ownerField": "owner",
                     "allow": "owner",
@@ -420,14 +430,6 @@
                       "update",
                       "delete",
                       "read"
-                    ]
-                  },
-                  {
-                    "allow": "private",
-                    "operations": [
-                      "read",
-                      "create",
-                      "update"
                     ]
                   }
                 ]
@@ -690,6 +692,117 @@
             "primaryKeyFieldName": "id",
             "sortKeyFieldNames": []
           }
+        },
+        "AgentJob": {
+          "name": "AgentJob",
+          "fields": {
+            "id": {
+              "name": "id",
+              "isArray": false,
+              "type": "ID",
+              "isRequired": true,
+              "attributes": []
+            },
+            "queryType": {
+              "name": "queryType",
+              "isArray": false,
+              "type": "String",
+              "isRequired": true,
+              "attributes": []
+            },
+            "status": {
+              "name": "status",
+              "isArray": false,
+              "type": {
+                "enum": "AgentJobStatus"
+              },
+              "isRequired": false,
+              "attributes": []
+            },
+            "requestData": {
+              "name": "requestData",
+              "isArray": false,
+              "type": "AWSJSON",
+              "isRequired": false,
+              "attributes": []
+            },
+            "resultData": {
+              "name": "resultData",
+              "isArray": false,
+              "type": "AWSJSON",
+              "isRequired": false,
+              "attributes": []
+            },
+            "error": {
+              "name": "error",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "startedAt": {
+              "name": "startedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": []
+            },
+            "completedAt": {
+              "name": "completedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": []
+            },
+            "createdAt": {
+              "name": "createdAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            },
+            "updatedAt": {
+              "name": "updatedAt",
+              "isArray": false,
+              "type": "AWSDateTime",
+              "isRequired": false,
+              "attributes": [],
+              "isReadOnly": true
+            }
+          },
+          "syncable": true,
+          "pluralName": "AgentJobs",
+          "attributes": [
+            {
+              "type": "model",
+              "properties": {}
+            },
+            {
+              "type": "auth",
+              "properties": {
+                "rules": [
+                  {
+                    "provider": "userPools",
+                    "ownerField": "owner",
+                    "allow": "owner",
+                    "identityClaim": "sub",
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "primaryKeyInfo": {
+            "isCustomPrimaryKey": false,
+            "primaryKeyFieldName": "id",
+            "sortKeyFieldNames": []
+          }
         }
       },
       "enums": {
@@ -717,6 +830,15 @@
             "ACCEPTED",
             "DECLINED"
           ]
+        },
+        "AgentJobStatus": {
+          "name": "AgentJobStatus",
+          "values": [
+            "PENDING",
+            "PROCESSING",
+            "COMPLETE",
+            "FAILED"
+          ]
         }
       },
       "nonModels": {
@@ -743,82 +865,6 @@
               "type": "String",
               "isRequired": false,
               "attributes": []
-            }
-          }
-        }
-      },
-      "queries": {
-        "breakdownProject": {
-          "name": "breakdownProject",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "listId": {
-              "name": "listId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "projectBrief": {
-              "name": "projectBrief",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "deadline": {
-              "name": "deadline",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false
-            }
-          }
-        },
-        "analyzeTask": {
-          "name": "analyzeTask",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "taskDescription": {
-              "name": "taskDescription",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            }
-          }
-        },
-        "planDay": {
-          "name": "planDay",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "date": {
-              "name": "date",
-              "isArray": false,
-              "type": "String",
-              "isRequired": true
-            },
-            "listId": {
-              "name": "listId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false
-            }
-          }
-        },
-        "recommendTask": {
-          "name": "recommendTask",
-          "isArray": false,
-          "type": "String",
-          "isRequired": false,
-          "arguments": {
-            "listId": {
-              "name": "listId",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false
             }
           }
         }

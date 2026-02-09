@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,11 +10,10 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Textarea } from '@/components/ui/textarea'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Loader2 } from 'lucide-react'
 import { useBreakdownProject } from '@/hooks/use-ai-agents'
-import { useCreateTodo } from '@/hooks/use-todos'
+import { useToast } from '@/hooks/use-toast'
 
 interface ProjectBreakdownDialogProps {
   listId: string
@@ -25,88 +24,105 @@ interface ProjectBreakdownDialogProps {
 export function ProjectBreakdownDialog({ listId, open, onOpenChange }: ProjectBreakdownDialogProps) {
   const [projectBrief, setProjectBrief] = useState('')
   const [deadline, setDeadline] = useState('')
-  const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set())
-  const [isAdding, setIsAdding] = useState(false)
+  const submittingRef = useRef(false)
+  const hasShownToastRef = useRef(false)
+  const previousSuccessRef = useRef(false)
 
-  const { breakdown, data, isLoading, error, reset } = useBreakdownProject()
-  const createTodo = useCreateTodo()
+  const { breakdown, data, isLoading, error, reset, isSuccess } = useBreakdownProject()
+  const { toast } = useToast()
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const trimmed = projectBrief.trim()
     if (!trimmed) return
-    reset()
-    setSelectedIndices(new Set())
-    breakdown(listId, trimmed, deadline || undefined)
-  }
-
-  const handleToggleTask = (index: number) => {
-    setSelectedIndices((prev) => {
-      const next = new Set(prev)
-      if (next.has(index)) {
-        next.delete(index)
-      } else {
-        next.add(index)
-      }
-      return next
+    
+    // Prevent duplicate submissions (React StrictMode causes double renders in dev)
+    if (submittingRef.current) {
+      console.warn('Already submitting, ignoring duplicate call')
+      return
+    }
+    
+    submittingRef.current = true
+    
+    // Convert date to end of day (23:59:59) if provided
+    let deadlineValue: string | undefined = undefined
+    if (deadline) {
+      const date = new Date(deadline)
+      date.setHours(23, 59, 59, 999)
+      deadlineValue = date.toISOString()
+    }
+    
+    // Show "processing" toast
+    toast({
+      title: 'Breaking down your project...',
+      description: 'This may take a few minutes. You can continue using the app.',
     })
-  }
-
-  const handleSelectAll = () => {
-    if (!data) return
-    if (selectedIndices.size === data.tasks.length) {
-      setSelectedIndices(new Set())
-    } else {
-      setSelectedIndices(new Set(data.tasks.map((_, i) => i)))
-    }
-  }
-
-  const handleConfirm = async () => {
-    if (!data || selectedIndices.size === 0) return
-    setIsAdding(true)
-    try {
-      const selected = data.tasks.filter((_, i) => selectedIndices.has(i))
-      for (const task of selected) {
-        await createTodo.mutateAsync({
-          title: task.title,
-          description: task.description,
-          priority: task.priority,
-          dueDate: task.dueDate ? new Date(task.dueDate).toISOString() : undefined,
-          tags: task.tags,
-          listId,
-          status: 'PENDING',
-        })
-      }
-      handleClose()
-    } catch {
-      // createTodo error state is handled by the hook
-    } finally {
-      setIsAdding(false)
-    }
+    
+    // Close dialog (no spinner needed)
+    onOpenChange(false)
+    
+    // Start the breakdown
+    breakdown(listId, trimmed, deadlineValue)
   }
 
   const handleClose = () => {
     setProjectBrief('')
     setDeadline('')
-    setSelectedIndices(new Set())
+    submittingRef.current = false
+    hasShownToastRef.current = false
+    previousSuccessRef.current = false
     reset()
     onOpenChange(false)
   }
 
   const handleRetry = () => {
+    submittingRef.current = false
+    hasShownToastRef.current = false
+    previousSuccessRef.current = false
     reset()
-    setSelectedIndices(new Set())
   }
 
-  // Auto-select all tasks when data arrives
-  const [lastData, setLastData] = useState(data)
-  if (data && data !== lastData) {
-    setLastData(data)
-    setSelectedIndices(new Set(data.tasks.map((_, i) => i)))
-  }
+  // Handle success or error - show toast (runs even when dialog is closed)
+  useEffect(() => {
+    console.log('ProjectBreakdownDialog useEffect triggered', { 
+      isSuccess, 
+      data, 
+      error, 
+      hasShownToast: hasShownToastRef.current,
+      previousSuccess: previousSuccessRef.current 
+    })
+    
+    // Only show toast when isSuccess changes from false to true
+    if (isSuccess && !previousSuccessRef.current && data && !hasShownToastRef.current) {
+      console.log('Showing success toast')
+      hasShownToastRef.current = true
+      previousSuccessRef.current = true
+      
+      // Show success toast with AI summary
+      const taskCount = 'totalTasks' in data ? (data.totalTasks as number) : 0
+      const summary = 'summary' in data ? (data.summary as string) : `Created ${taskCount} tasks for your project.`
+      
+      toast({
+        title: `Project breakdown complete! (${taskCount} tasks)`,
+        description: summary,
+        variant: 'default',
+        duration: Infinity, // Require manual dismissal for long AI summary
+      })
+    } else if (error && !hasShownToastRef.current) {
+      console.log('Showing error toast')
+      hasShownToastRef.current = true
+      
+      // Error - show error toast
+      toast({
+        title: 'Project breakdown failed',
+        description: error,
+        variant: 'destructive',
+      })
+    }
+  }, [isSuccess, data, error, toast])
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
+    <Dialog open={open} onOpenChange={handleClose} modal={true}>
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Project Breakdown</DialogTitle>
           <DialogDescription>
@@ -118,19 +134,20 @@ export function ProjectBreakdownDialog({ listId, open, onOpenChange }: ProjectBr
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="project-brief">Project Brief</Label>
-              <Input
+              <Textarea
                 id="project-brief"
-                placeholder="Describe your project..."
+                placeholder="Describe your project in detail..."
                 value={projectBrief}
                 onChange={(e) => setProjectBrief(e.target.value)}
                 aria-label="Project brief"
+                className="min-h-[270px] resize-none"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="project-deadline">Deadline (optional)</Label>
               <Input
                 id="project-deadline"
-                type="datetime-local"
+                type="date"
                 value={deadline}
                 onChange={(e) => setDeadline(e.target.value)}
                 aria-label="Project deadline"
@@ -159,53 +176,10 @@ export function ProjectBreakdownDialog({ listId, open, onOpenChange }: ProjectBr
           </div>
         )}
 
-        {data && (
-          <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">{data.summary}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">
-                {selectedIndices.size} of {data.tasks.length} tasks selected
-              </span>
-              <Button variant="ghost" size="sm" onClick={handleSelectAll}>
-                {selectedIndices.size === data.tasks.length ? 'Deselect all' : 'Select all'}
-              </Button>
-            </div>
-            <ul className="space-y-2 max-h-60 overflow-y-auto" role="list">
-              {data.tasks.map((task, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 rounded-md border p-3"
-                >
-                  <Checkbox
-                    checked={selectedIndices.has(index)}
-                    onCheckedChange={() => handleToggleTask(index)}
-                    aria-label={`Select "${task.title}"`}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium">{task.title}</p>
-                    {task.description && (
-                      <p className="text-xs text-muted-foreground mt-1">{task.description}</p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         <DialogFooter>
           {!data && !isLoading && !error && (
             <Button onClick={handleSubmit} disabled={!projectBrief.trim()}>
               Break Down Project
-            </Button>
-          )}
-          {data && (
-            <Button
-              onClick={handleConfirm}
-              disabled={selectedIndices.size === 0 || isAdding}
-            >
-              {isAdding && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Add {selectedIndices.size} {selectedIndices.size === 1 ? 'Task' : 'Tasks'}
             </Button>
           )}
         </DialogFooter>

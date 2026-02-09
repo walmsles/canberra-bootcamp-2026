@@ -55,9 +55,17 @@ export function AddTodoForm({ onAdd, isLoading, defaultReminderMinutes = 1440 }:
   const [lastAppliedAi, setLastAppliedAi] = useState<typeof aiData>(null)
   if (aiData && aiData !== lastAppliedAi) {
     setLastAppliedAi(aiData)
+    setTitle(aiData.title) // Use the enhanced title from AI
     setPriority(mapAnalyzerPriority(aiData.priority))
     if (aiData.tags.length > 0) setTags(aiData.tags)
-    if (aiData.dueDate) setDueDate(aiData.dueDate)
+    if (aiData.dueDate) {
+      // datetime-local input needs "YYYY-MM-DDTHH:mm" format
+      // AI may return just "YYYY-MM-DD" — append T09:00 as a sensible default
+      const dateVal = aiData.dueDate.includes('T')
+        ? aiData.dueDate.slice(0, 16)
+        : `${aiData.dueDate}T09:00`
+      setDueDate(dateVal)
+    }
   }
 
   const handleAiAssist = () => {

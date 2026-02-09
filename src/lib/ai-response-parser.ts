@@ -1,6 +1,7 @@
 // --- Agent response types ---
 
 export interface TaskAnalysis {
+  title: string;
   priority: 'high' | 'medium' | 'low';
   estimatedMinutes: number;
   dueDate: string | null;
@@ -37,6 +38,7 @@ export interface DailyPlanResult {
 
 export interface TaskRecommendation {
   taskId: string;
+  listId?: string;
   title: string;
   reasoning: string;
   priority: string;
@@ -70,7 +72,20 @@ export function prettyPrint<T>(data: T): string {
 
 function tryParseJson(raw: string): ParseResult<unknown> {
   try {
-    const data: unknown = JSON.parse(raw);
+    let data: unknown = JSON.parse(raw);
+    // Unwrap backend validateAgentResponse wrapper: { success: true, data: { ... } }
+    if (
+      data !== null &&
+      typeof data === 'object' &&
+      'success' in (data as Record<string, unknown>) &&
+      'data' in (data as Record<string, unknown>)
+    ) {
+      const wrapper = data as { success: boolean; data?: unknown; error?: string };
+      if (!wrapper.success) {
+        return { success: false, error: wrapper.error ?? 'Agent returned an error' };
+      }
+      data = wrapper.data;
+    }
     return { success: true, data };
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
@@ -95,6 +110,7 @@ export function parseTaskAnalysis(raw: string): ParseResult<TaskAnalysis> {
 
   const data = json.data as Record<string, unknown>;
   const missing = checkRequiredFields(data, [
+    'title',
     'priority',
     'estimatedMinutes',
     'tags',
@@ -110,6 +126,7 @@ export function parseTaskAnalysis(raw: string): ParseResult<TaskAnalysis> {
   return {
     success: true,
     data: {
+      title: data.title as string,
       priority: data.priority as TaskAnalysis['priority'],
       estimatedMinutes: data.estimatedMinutes as number,
       dueDate: (data.dueDate as string) ?? null,
@@ -155,27 +172,34 @@ export function parseDailyPlan(raw: string): ParseResult<DailyPlanResult> {
   if (!json.success) return json;
 
   const data = json.data as Record<string, unknown>;
-  const missing = checkRequiredFields(data, ['tasks', 'summary']);
-  if (missing.length > 0) {
-    return {
-      success: false,
-      error: `Missing required fields: ${missing.join(', ')}`,
-    };
+
+  // The SOP returns "schedule" but the frontend expects "tasks"
+  const tasksOrSchedule = (data.tasks ?? data.schedule) as unknown[] | undefined;
+  const summary = data.summary as string | undefined;
+
+  if (!summary) {
+    return { success: false, error: 'Missing required fields: summary' };
   }
 
-  if (!Array.isArray(data.tasks)) {
-    return {
-      success: false,
-      error: `Missing required fields: tasks`,
-    };
+  if (!Array.isArray(tasksOrSchedule)) {
+    return { success: false, error: 'Missing required fields: tasks/schedule' };
   }
+
+  // Map schedule items to DailyPlanTask shape
+  const tasks: DailyPlanTask[] = tasksOrSchedule.map((item) => {
+    const entry = item as Record<string, unknown>;
+    return {
+      taskId: (entry.taskId ?? '') as string,
+      title: (entry.title ?? entry.taskName ?? '') as string,
+      priority: (entry.priority ?? '') as string,
+      reasoning: (entry.reasoning ?? '') as string,
+      estimatedMinutes: entry.estimatedMinutes as number | undefined,
+    };
+  });
 
   return {
     success: true,
-    data: {
-      tasks: data.tasks as DailyPlanTask[],
-      summary: data.summary as string,
-    },
+    data: { tasks, summary },
   };
 }
 
@@ -186,12 +210,19 @@ export function parseTaskRecommendation(
   if (!json.success) return json;
 
   const data = json.data as Record<string, unknown>;
-  const missing = checkRequiredFields(data, [
-    'taskId',
-    'title',
-    'reasoning',
-    'priority',
-  ]);
+
+  // Map backend field names to frontend types
+  const taskId = (data.taskId ?? data.recommendedTaskId) as string | undefined;
+  const title = (data.title ?? data.taskName) as string | undefined;
+  const reasoning = data.reasoning as string | undefined;
+  const priority = (data.priority ?? 'MEDIUM') as string;
+  const listId = data.listId as string | undefined;
+
+  const missing: string[] = [];
+  if (!taskId) missing.push('taskId/recommendedTaskId');
+  if (!title) missing.push('title/taskName');
+  if (!reasoning) missing.push('reasoning');
+
   if (missing.length > 0) {
     return {
       success: false,
@@ -202,10 +233,11 @@ export function parseTaskRecommendation(
   return {
     success: true,
     data: {
-      taskId: data.taskId as string,
-      title: data.title as string,
-      reasoning: data.reasoning as string,
-      priority: data.priority as string,
+      taskId: taskId!,
+      listId,
+      title: title!,
+      reasoning: reasoning!,
+      priority,
     },
   };
 }

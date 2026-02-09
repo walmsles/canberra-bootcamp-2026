@@ -74,6 +74,28 @@ export function buildCreateTaskItem(
     };
   }
 
+  // Validate dueDate format if provided - must be ISO 8601 with time
+  if (input.dueDate) {
+    const dateStr = String(input.dueDate);
+    // Check if it's just a date (YYYY-MM-DD) without time
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return {
+        item: null,
+        error: `Invalid dueDate format: ${dateStr}. Must be ISO 8601 with time (e.g., 2026-03-05T23:59:59.999Z), not just a date.`,
+        unknownFields,
+      };
+    }
+    // Check if it's a valid ISO 8601 datetime
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) {
+      return {
+        item: null,
+        error: `Invalid dueDate: ${dateStr}. Must be a valid ISO 8601 datetime.`,
+        unknownFields,
+      };
+    }
+  }
+
   // Strip unknown fields
   for (const key of Object.keys(input)) {
     if (!KNOWN_FIELDS.has(key)) {

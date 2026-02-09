@@ -44,7 +44,21 @@ Break the project into individual tasks, each scoped to 90 minutes or less of es
 - Each task MUST be assigned a priority: LOW, MEDIUM, HIGH, or URGENT
 - Each task MUST have relevant tags for categorization
 - Each task MUST have an effort estimate in hours
-- If a deadline is provided, you MUST calculate due dates for tasks distributed backward from the deadline across the project timeline
+
+**Due Date Distribution Rules:**
+- If NO deadline is provided: Do NOT assign due dates to tasks (leave dueDate as null)
+- If a deadline IS provided:
+  1. Calculate the total effort hours for all tasks
+  2. Assume 6 productive hours per working day
+  3. Calculate the number of working days needed: totalHours / 6 (round up)
+  4. Distribute tasks evenly across the timeline, working BACKWARD from the deadline
+  5. Use the "Current Date and Time" and "Date" fields from the prompt to determine today's date
+  6. Assign due dates in ISO 8601 format with time (YYYY-MM-DDTHH:MM:SS.sssZ) - use end of day (23:59:59.999Z)
+  7. Tasks should be ordered by dependency and priority, with earlier tasks having earlier due dates
+  8. Example: If deadline is 2026-02-20, first task might be "2026-02-14T23:59:59.999Z", last task "2026-02-20T23:59:59.999Z"
+  9. CRITICAL: All due dates MUST be on or before the deadline date
+  10. CRITICAL: Due dates MUST be realistic and account for dependencies (don't assign all tasks to the same day)
+  11. CRITICAL: Due dates MUST include time component in ISO 8601 format (not just YYYY-MM-DD)
 
 ### 4. Create Tasks
 
@@ -61,19 +75,27 @@ Collect all decomposed tasks into an array, then call `create_tasks` once with t
 
 After creating all tasks, return a JSON response summarizing the breakdown.
 
-**Output Format:**
+**CRITICAL OUTPUT RULES - READ CAREFULLY:**
+- Your response must be PURE JSON with NO formatting whatsoever
+- Do NOT use triple backticks (```) anywhere in your response
+- Do NOT use the word "json" anywhere in your response
+- Do NOT add any text, explanation, or commentary before or after the JSON
+- Your ENTIRE response must be EXACTLY the JSON object and nothing else
+- If you add backticks or any other formatting, the system will FAIL
+
+**Example of CORRECT output (copy this format exactly):**
+{"projectName": "E-commerce Website", "totalTasks": 12, "estimatedTotalHours": 18.5, "workStreams": ["frontend", "backend", "testing"], "criticalPath": ["Design API schema", "Implement endpoints", "Integration tests"], "projectDuration": "5 days", "summary": "Broke down the project into 12 tasks across 3 work streams with a 5-day timeline"}
+
+**Example of INCORRECT output (NEVER do this):**
 ```json
-{
-  "projectName": "Name derived from the brief",
-  "totalTasks": 12,
-  "estimatedTotalHours": 18.5,
-  "workStreams": ["frontend", "backend", "testing"],
-  "criticalPath": ["Design API schema", "Implement endpoints", "Integration tests"],
-  "projectDuration": "5 days",
-  "summary": "Brief summary of the breakdown approach and key decisions"
-}
+{"projectName": "E-commerce Website", ...}
 ```
 
-**Constraints:**
-- You MUST return ONLY the JSON object — no additional text before or after
-- All fields are required in the response
+**Field Constraints:**
+- `projectName` MUST be a string derived from the brief
+- `totalTasks` MUST be a positive integer matching the number of tasks created
+- `estimatedTotalHours` MUST be a positive number (sum of all task effort hours)
+- `workStreams` MUST be an array of strings (can be empty)
+- `criticalPath` MUST be an array of task titles representing the critical path (can be empty)
+- `projectDuration` MUST be a string describing the timeline (e.g., "5 days", "2 weeks")
+- `summary` MUST be a non-empty string explaining the breakdown approach

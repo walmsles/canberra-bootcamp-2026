@@ -8,5 +8,5 @@ inclusion: always
 -------------------------------------------------------------------------------------> 
 - you MUST use `npm run lint` for linting and fix all errors and warnings
 - you must use `npm run test` for running all tests and fix all errors and warnings
-- A task is not finished until linting and tests pass with no warnings or errors
+- A task is not finished until linting, tests and build pass with no warnings or errors
 - ALl UI components MUST use shadcn - do not create yoru own

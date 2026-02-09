@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
 import { TodoListSkeleton } from './TodoSkeleton'
 
-type SortOption = 'default' | 'tag'
+type SortOption = 'default' | 'tag' | 'dueDate' | 'priority'
 
 interface TodoListProps {
   todos: TodoItemType[]
@@ -16,11 +16,12 @@ interface TodoListProps {
   isLoading?: boolean
   canDeleteTodos?: boolean
   currentUserId?: string
+  highlightTaskId?: string
 }
 
-export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, isLoading, canDeleteTodos = true, currentUserId }: TodoListProps) {
+export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, isLoading, canDeleteTodos = true, currentUserId, highlightTaskId }: TodoListProps) {
   const [filterTag, setFilterTag] = useState<string | null>(null)
-  const [sortBy, setSortBy] = useState<SortOption>('default')
+  const [sortBy, setSortBy] = useState<SortOption>('dueDate')
 
   // Get all unique tags from todos
   const allTags = useMemo(() => {
@@ -42,7 +43,7 @@ export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, is
       result = result.filter(todo => todo.tags?.includes(filterTag))
     }
 
-    // Sort by tag (alphabetically by first tag)
+    // Sort
     if (sortBy === 'tag') {
       result.sort((a, b) => {
         const aTag = a.tags?.[0] ?? ''
@@ -51,6 +52,21 @@ export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, is
         if (!aTag && bTag) return 1
         if (aTag && !bTag) return -1
         return aTag.localeCompare(bTag)
+      })
+    } else if (sortBy === 'dueDate') {
+      result.sort((a, b) => {
+        // Items without due dates go last
+        if (!a.dueDate && b.dueDate) return 1
+        if (a.dueDate && !b.dueDate) return -1
+        if (!a.dueDate && !b.dueDate) return 0
+        return new Date(a.dueDate!).getTime() - new Date(b.dueDate!).getTime()
+      })
+    } else if (sortBy === 'priority') {
+      const priorityOrder = { URGENT: 0, HIGH: 1, MEDIUM: 2, LOW: 3 }
+      result.sort((a, b) => {
+        const aPriority = priorityOrder[a.priority as keyof typeof priorityOrder] ?? 4
+        const bPriority = priorityOrder[b.priority as keyof typeof priorityOrder] ?? 4
+        return aPriority - bPriority
       })
     }
 
@@ -113,6 +129,8 @@ export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, is
             aria-label="Sort option"
           >
             <option value="default">Default</option>
+            <option value="dueDate">Due Date</option>
+            <option value="priority">Priority</option>
             <option value="tag">Tag (A-Z)</option>
           </select>
         </div>
@@ -140,6 +158,7 @@ export function TodoList({ todos, onToggleComplete, onDelete, onStatusChange, is
               onDelete={onDelete}
               onStatusChange={onStatusChange}
               canDelete={canDeleteTodos || todo.owner === currentUserId}
+              highlight={todo.id === highlightTaskId}
             />
           ))}
         </div>

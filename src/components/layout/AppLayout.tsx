@@ -28,10 +28,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
-import { List, Plus, Trash2, Settings, Menu, X, Users, GripVertical } from 'lucide-react'
+import { List, Plus, Trash2, Settings, Menu, X, Users, GripVertical, Sparkles } from 'lucide-react'
 import { ThemeToggleSimple } from '@/components/ui/theme-toggle'
 import { DailyPlanCard } from '@/components/ai/DailyPlanCard'
 import { TaskRecommendationCard } from '@/components/ai/TaskRecommendationCard'
+import { ProjectBreakdownDialog } from '@/components/ai/ProjectBreakdownDialog'
 
 // Sortable list item component
 interface SortableListItemProps {
@@ -42,9 +43,10 @@ interface SortableListItemProps {
   groupName?: string
   onSelect: (id: string) => void
   onDelete: (id: string, e: React.MouseEvent) => void
+  onBreakdown: (id: string, e: React.MouseEvent) => void
 }
 
-function SortableListItem({ list, isSelected, todoCount, isOwner, groupName, onSelect, onDelete }: SortableListItemProps) {
+function SortableListItem({ list, isSelected, todoCount, isOwner, groupName, onSelect, onDelete, onBreakdown }: SortableListItemProps) {
   const {
     attributes,
     listeners,
@@ -111,27 +113,45 @@ function SortableListItem({ list, isSelected, todoCount, isOwner, groupName, onS
         <span className="text-xs opacity-70">{todoCount}</span>
       </button>
       {isOwner && (
-        <button
-          onClick={(e) => onDelete(list.id, e)}
-          className={cn(
-            "opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-destructive/20",
-            isSelected && "hover:bg-primary-foreground/20"
-          )}
-          aria-label={`Delete ${list.name}`}
-        >
-          <Trash2 className="h-3 w-3" />
-        </button>
+        <>
+          <button
+            onClick={(e) => onBreakdown(list.id, e)}
+            className={cn(
+              "opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-accent/50",
+              isSelected && "hover:bg-primary-foreground/20"
+            )}
+            aria-label={`Break down project for "${list.name}"`}
+          >
+            <Sparkles className="h-3 w-3" />
+          </button>
+          <button
+            onClick={(e) => onDelete(list.id, e)}
+            className={cn(
+              "opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-destructive/20",
+              isSelected && "hover:bg-primary-foreground/20"
+            )}
+            aria-label={`Delete ${list.name}`}
+          >
+            <Trash2 className="h-3 w-3" />
+          </button>
+        </>
       )}
     </div>
   )
 }
 
-export function AppLayout() {
+interface AppLayoutProps {
+  initialListId?: string
+  highlightTaskId?: string
+}
+
+export function AppLayout({ initialListId, highlightTaskId }: AppLayoutProps) {
   const { user, userId, logout } = useAuthContext()
   const userEmail = user?.signInDetails?.loginId ?? ''
-  const [selectedListId, setSelectedListId] = useState<string | null>(null)
+  const [selectedListId, setSelectedListId] = useState<string | null>(initialListId ?? null)
   const [showAddList, setShowAddList] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [breakdownListId, setBreakdownListId] = useState<string | null>(null)
 
   // Initialize reminders service
   useReminders(userId)
@@ -235,6 +255,11 @@ export function AppLayout() {
   const handleSelectList = (listId: string | null) => {
     setSelectedListId(listId)
     setSidebarOpen(false) // Close sidebar on mobile after selection
+  }
+
+  const handleBreakdownList = (listId: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setBreakdownListId(listId)
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -394,6 +419,7 @@ export function AppLayout() {
                           groupName={groupName}
                           onSelect={handleSelectList}
                           onDelete={handleDeleteList}
+                          onBreakdown={handleBreakdownList}
                         />
                       )
                     })}
@@ -459,12 +485,21 @@ export function AppLayout() {
                 isLoading={todosLoading}
                 canDeleteTodos={selectedList ? selectedList.owner === userId : false}
                 currentUserId={userId}
+                highlightTaskId={highlightTaskId}
               />
             </CardContent>
           </Card>
           </div>
         </main>
       </div>
+
+      {/* Project Breakdown Dialog - always mounted to receive mutation updates */}
+      <ProjectBreakdownDialog
+        listId={breakdownListId || ''}
+        open={!!breakdownListId}
+        onOpenChange={(open) => !open && setBreakdownListId(null)}
+      />
+
     </div>
   )
 }

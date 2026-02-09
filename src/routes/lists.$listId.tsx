@@ -1,14 +1,18 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 import { useAuthContext } from '@/lib/auth-context'
 import { useList, useDeleteList } from '@/hooks/use-lists'
 import { useTodos, useCreateTodo, useUpdateTodo, useDeleteTodo } from '@/hooks/use-todos'
 import { TodoList, AddTodoForm } from '@/components/todo'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { ArrowLeft, Trash2, Plus } from 'lucide-react'
 import { AuthGuard } from '@/components/auth-guard'
 
 export const Route = createFileRoute('/lists/$listId')({
+  validateSearch: (search: Record<string, unknown>): { highlightTask?: string } => ({
+    highlightTask: (search.highlightTask as string) || undefined,
+  }),
   component: () => (
     <AuthGuard>
       <ListDetailPage />
@@ -18,8 +22,10 @@ export const Route = createFileRoute('/lists/$listId')({
 
 function ListDetailPage() {
   const { listId } = Route.useParams()
+  const { highlightTask } = Route.useSearch()
   const navigate = useNavigate()
   const { user, userId, logout } = useAuthContext()
+  const [showAddForm, setShowAddForm] = useState(false)
   
   const { data: list, isLoading: listLoading, error: listError } = useList(listId)
   const { data: todos = [], isLoading: todosLoading, error: todosError } = useTodos(listId)
@@ -62,6 +68,8 @@ function ListDetailPage() {
       priority,
       listId,
       status: 'PENDING',
+    }, {
+      onSuccess: () => setShowAddForm(false),
     })
   }
 
@@ -144,10 +152,21 @@ function ListDetailPage() {
             )}
           </CardHeader>
           <CardContent className="space-y-6">
-            <AddTodoForm 
-              onAdd={handleAddTodo} 
-              isLoading={createTodo.isPending} 
-            />
+            {showAddForm ? (
+              <AddTodoForm 
+                onAdd={handleAddTodo} 
+                isLoading={createTodo.isPending} 
+              />
+            ) : (
+              <Button 
+                onClick={() => setShowAddForm(true)}
+                variant="outline"
+                className="w-full"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Todo
+              </Button>
+            )}
 
             {todosError && (
               <div className="p-4 rounded-lg bg-destructive/10 text-destructive">
@@ -175,6 +194,7 @@ function ListDetailPage() {
               onDelete={handleDeleteTodo}
               onStatusChange={handleStatusChange}
               isLoading={todosLoading}
+              highlightTaskId={highlightTask}
             />
           </CardContent>
         </Card>

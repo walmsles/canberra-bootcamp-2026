@@ -2,7 +2,7 @@ import { defineFunction } from '@aws-amplify/backend';
 
 export const taskAgents = defineFunction({
   name: 'task-agents',
-  entry: './handler.ts',
-  timeoutSeconds: 60,
+  entry: './async-handler.ts',
+  timeoutSeconds: 900, // 15 minutes
   resourceGroupName: 'data',
 });

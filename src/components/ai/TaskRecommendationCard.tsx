@@ -10,8 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Lightbulb, Loader2, RotateCcw } from 'lucide-react'
+import { Lightbulb, Loader2, RotateCcw, ExternalLink } from 'lucide-react'
 import { useRecommendTask } from '@/hooks/use-ai-agents'
+import { useNavigate } from '@tanstack/react-router'
 
 interface ListOption {
   id: string
@@ -25,6 +26,7 @@ interface TaskRecommendationCardProps {
 export function TaskRecommendationCard({ lists }: TaskRecommendationCardProps) {
   const [selectedListId, setSelectedListId] = useState<string | undefined>(undefined)
   const { recommend, data, isLoading, error, reset } = useRecommendTask()
+  const navigate = useNavigate()
 
   const handleRecommend = () => {
     recommend(selectedListId)
@@ -36,6 +38,17 @@ export function TaskRecommendationCard({ lists }: TaskRecommendationCardProps) {
 
   const handleListChange = (value: string) => {
     setSelectedListId(value === 'all' ? undefined : value)
+  }
+
+  const handleGoToTask = () => {
+    if (!data) return
+    const listId = data.listId ?? selectedListId
+    if (listId) {
+      navigate({
+        to: '/dashboard',
+        search: { selectList: listId, highlightTask: data.taskId },
+      })
+    }
   }
 
   return (
@@ -105,6 +118,15 @@ export function TaskRecommendationCard({ lists }: TaskRecommendationCardProps) {
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground">{data.reasoning}</p>
+            {(data.listId ?? selectedListId) && (
+              <button
+                onClick={handleGoToTask}
+                className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+              >
+                <ExternalLink className="h-3 w-3" />
+                Go to task
+              </button>
+            )}
           </div>
         )}
       </CardContent>

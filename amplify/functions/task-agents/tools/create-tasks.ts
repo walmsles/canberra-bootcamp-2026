@@ -39,6 +39,16 @@ export async function createTasks(
   tableName: string,
   owner: string,
 ): Promise<CreateTasksResult> {
+  logger.info('create_tasks called', { 
+    listId: input.listId, 
+    taskCount: input.tasks?.length ?? 0,
+    firstTaskSample: input.tasks?.[0] ? {
+      title: input.tasks[0].title,
+      dueDate: input.tasks[0].dueDate,
+      priority: input.tasks[0].priority
+    } : null
+  });
+
   if (!input.listId) {
     return { success: false, createdCount: 0, error: 'Missing required field: listId' };
   }
@@ -56,14 +66,18 @@ export async function createTasks(
     const { item, error } = buildCreateTaskItem({ ...task, listId: input.listId }, owner);
     if (error || !item) {
       errors.push(`Task ${i}: ${error ?? 'Unknown validation error'}`);
+      logger.error('Task validation failed', { taskIndex: i, error, task });
     } else {
       validatedItems.push(item);
     }
   }
 
   if (errors.length > 0) {
+    logger.error('create_tasks validation failed', { errors, taskCount: input.tasks.length });
     return { success: false, createdCount: 0, errors };
   }
+
+  logger.info('All tasks validated', { validatedCount: validatedItems.length });
 
   // Chunk and write
   const chunks = chunkArray(validatedItems, CHUNK_SIZE);
@@ -120,6 +134,11 @@ export async function createTasks(
       };
     }
   }
+
+  logger.info('create_tasks completed successfully', { 
+    totalWritten, 
+    requestedCount: input.tasks.length 
+  });
 
   return {
     success: true,

@@ -75,7 +75,8 @@ Return a JSON response with the optimized daily schedule.
 ```
 
 **Constraints:**
-- You MUST return ONLY the JSON object — no additional text before or after
+- You MUST return ONLY the raw JSON object — no markdown code fences, no backticks, no additional text before or after
+- Do NOT wrap the response in ```json``` or any other formatting
 - `schedule` MUST be an array of time block objects
 - `unscheduledTasks` MUST be an array of task IDs (can be empty)
 - `summary` MUST be a non-empty string describing the schedule

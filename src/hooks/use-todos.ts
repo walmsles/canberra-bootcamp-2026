@@ -20,11 +20,24 @@ export function useTodos(listId: string) {
   return useQuery({
     queryKey: todoKeys.list(listId),
     queryFn: async () => {
-      const { data, errors } = await client.models.TodoItem.list({
-        filter: { listId: { eq: listId } },
-      })
-      if (errors) throw new Error(errors[0].message)
-      return data
+      try {
+        const { data, errors } = await client.models.TodoItem.list({
+          filter: { listId: { eq: listId } },
+        })
+        if (errors) {
+          // Log serialization errors but don't throw
+          console.warn('TodoItem query errors:', errors)
+          // Filter out serialization errors and throw only real errors
+          const realErrors = errors.filter(e => !e.message?.includes("Can't serialize"))
+          if (realErrors.length > 0) {
+            throw new Error(realErrors[0].message)
+          }
+        }
+        return data ?? []
+      } catch (error) {
+        console.error('Error fetching todos:', error)
+        throw error
+      }
     },
     enabled: !!listId,
   })
@@ -35,10 +48,23 @@ export function useAllTodos(owner: string) {
   return useQuery({
     queryKey: todoKeys.byOwner(owner),
     queryFn: async () => {
-      // Amplify automatically filters by owner when using owner-based auth
-      const { data, errors } = await client.models.TodoItem.list()
-      if (errors) throw new Error(errors[0].message)
-      return data
+      try {
+        // Amplify automatically filters by owner when using owner-based auth
+        const { data, errors } = await client.models.TodoItem.list()
+        if (errors) {
+          // Log serialization errors but don't throw
+          console.warn('TodoItem query errors:', errors)
+          // Filter out serialization errors and throw only real errors
+          const realErrors = errors.filter(e => !e.message?.includes("Can't serialize"))
+          if (realErrors.length > 0) {
+            throw new Error(realErrors[0].message)
+          }
+        }
+        return data ?? []
+      } catch (error) {
+        console.error('Error fetching all todos:', error)
+        throw error
+      }
     },
     enabled: !!owner,
     retry: 3,

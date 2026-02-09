@@ -1,6 +1,5 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { acceptInvitation } from '../functions/accept-invitation/resource';
-import { taskAgents } from '../functions/task-agents/resource';
 
 const schema = a.schema({
   // User preferences and settings
@@ -20,7 +19,7 @@ const schema = a.schema({
     todos: a.hasMany('TodoItem', 'listId'),
   }).authorization(allow => [
     allow.owner().identityClaim('sub'),
-    allow.authenticated().to(['read', 'update']), // Allow owner to update groupId and members to read
+    allow.authenticated().to(['read', 'update', 'delete']), // Allow owner to update groupId and members to read/delete
   ]).secondaryIndexes(index => [
     index('groupId').sortKeys(['name']).name('byGroup'),
   ]),
@@ -40,8 +39,8 @@ const schema = a.schema({
     listId: a.id().required(),
     list: a.belongsTo('TodoList', 'listId'),
   }).authorization(allow => [
-    allow.owner().identityClaim('sub'),
-    allow.authenticated().to(['read', 'create', 'update']), // Allow group members to read/create/update shared todos
+    allow.authenticated().to(['read', 'create', 'update', 'delete']), // Allow all authenticated users first
+    allow.owner().identityClaim('sub'), // Then allow owner-specific access
   ]).secondaryIndexes(index => [
     index('listId').sortKeys(['dueDate']).name('byList'),
     index('status').sortKeys(['dueDate']).name('byStatus'),
@@ -78,6 +77,21 @@ const schema = a.schema({
     index('groupId').name('byGroup'),
   ]),
 
+  // AI Agent Job for async processing
+  // Frontend creates job with PENDING status, subscribes to updates
+  // Lambda picks up job, processes it, updates status to COMPLETE/FAILED
+  AgentJob: a.model({
+    queryType: a.string().required(),
+    status: a.enum(['PENDING', 'PROCESSING', 'COMPLETE', 'FAILED']),
+    requestData: a.json(), // Store the request parameters
+    resultData: a.json(), // Store the AI response
+    error: a.string(),
+    startedAt: a.datetime(),
+    completedAt: a.datetime(),
+  }).authorization(allow => [
+    allow.owner().identityClaim('sub'),
+  ]),
+
   // Custom mutation for atomically accepting invitations
   // Avoids race condition when multiple users accept simultaneously
   acceptGroupInvitation: a
@@ -95,47 +109,6 @@ const schema = a.schema({
     }))
     .authorization(allow => [allow.authenticated()])
     .handler(a.handler.function(acceptInvitation)),
-
-  // Task Agent Specialist custom queries
-  // Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6
-  breakdownProject: a
-    .query()
-    .arguments({
-      listId: a.string().required(),
-      projectBrief: a.string().required(),
-      deadline: a.string(),
-    })
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(taskAgents)),
-
-  analyzeTask: a
-    .query()
-    .arguments({
-      taskDescription: a.string().required(),
-    })
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(taskAgents)),
-
-  planDay: a
-    .query()
-    .arguments({
-      date: a.string().required(),
-      listId: a.string(),
-    })
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(taskAgents)),
-
-  recommendTask: a
-    .query()
-    .arguments({
-      listId: a.string(),
-    })
-    .returns(a.string())
-    .authorization(allow => [allow.authenticated()])
-    .handler(a.handler.function(taskAgents)),
 });
 
 export type Schema = ClientSchema<typeof schema>;

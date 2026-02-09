@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { Trash2, Clock, Bell } from 'lucide-react'
@@ -11,10 +12,18 @@ interface TodoItemProps {
   onDelete: (id: string) => void
   onStatusChange?: (id: string, status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETE') => void
   canDelete?: boolean
+  highlight?: boolean
 }
 
-export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, canDelete = true }: TodoItemProps) {
+export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, canDelete = true, highlight = false }: TodoItemProps) {
+  const ref = useRef<HTMLDivElement>(null)
   const isComplete = todo.status === 'COMPLETE'
+
+  useEffect(() => {
+    if (highlight && ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [highlight])
   
   const formatDueDate = (dateString: string | null | undefined) => {
     if (!dateString) return null
@@ -46,9 +55,12 @@ export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, can
   }
 
   return (
-    <div className={cn(
+    <div
+      ref={ref}
+      className={cn(
       "flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors",
-      isComplete && "opacity-60"
+      isComplete && "opacity-60",
+      highlight && "ring-2 ring-primary"
     )}>
       <Checkbox
         checked={isComplete}

@@ -62,6 +62,7 @@ Return a JSON response with the recommendation.
 ```json
 {
   "recommendedTaskId": "abc-123",
+  "listId": "list-456",
   "taskName": "Implement API endpoint",
   "reasoning": "This is an urgent, high-priority task due today. Morning is ideal for this complex work.",
   "alternatives": [
@@ -75,8 +76,10 @@ Return a JSON response with the recommendation.
 ```
 
 **Constraints:**
-- You MUST return ONLY the JSON object — no additional text before or after
+- You MUST return ONLY the raw JSON object — no markdown code fences, no backticks, no additional text before or after
+- Do NOT wrap the response in ```json``` or any other formatting
 - `recommendedTaskId` MUST be a valid task ID from the fetched tasks
+- `listId` MUST be the list ID that the recommended task belongs to
 - `taskName` MUST match the recommended task's title
 - `reasoning` MUST explain the recommendation logic
 - `alternatives` MUST contain 1-2 objects with `taskId` and `reason`
