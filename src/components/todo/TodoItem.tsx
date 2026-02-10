@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
-import { Trash2, Clock, Bell } from 'lucide-react'
+import { Trash2, Clock, Bell, Timer } from 'lucide-react'
 import type { TodoItem as TodoItemType } from '@/hooks/use-todos'
 import { cn } from '@/lib/utils'
 import { TagBadge } from './TagBadge'
@@ -41,6 +41,13 @@ export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, can
     if (minutes < 60) return `${minutes}m before`
     if (minutes < 1440) return `${Math.floor(minutes / 60)}h before`
     return `${Math.floor(minutes / 1440)}d before`
+  }
+
+  const formatEffortHours = (hours: number | null | undefined) => {
+    if (!hours) return null
+    if (hours < 1) return `${Math.round(hours * 60)}m`
+    if (hours === 1) return '1h'
+    return `${hours}h`
   }
 
   const getStatusColor = (status: string | null | undefined) => {
@@ -83,6 +90,13 @@ export function TodoItem({ todo, onToggleComplete, onDelete, onStatusChange, can
         )}
         
         <div className="flex items-center gap-2 mt-1 flex-wrap">
+          {todo.effortHours && (
+            <span className="flex items-center gap-1 text-xs text-muted-foreground" data-testid="effort-badge">
+              <Timer className="h-3 w-3" />
+              {formatEffortHours(todo.effortHours)}
+            </span>
+          )}
+
           {todo.dueDate && (
             <span className="flex items-center gap-1 text-xs text-muted-foreground" data-testid="due-date-badge">
               <Clock className="h-3 w-3" />

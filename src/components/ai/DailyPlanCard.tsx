@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Select,
   SelectContent,
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui/select'
 import { CalendarDays, Loader2, RotateCcw } from 'lucide-react'
 import { usePlanDay } from '@/hooks/use-ai-agents'
+import { useUpdateTodo } from '@/hooks/use-todos'
 
 interface ListOption {
   id: string
@@ -24,7 +26,9 @@ interface DailyPlanCardProps {
 
 export function DailyPlanCard({ lists }: DailyPlanCardProps) {
   const [selectedListId, setSelectedListId] = useState<string | undefined>(undefined)
+  const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set())
   const { plan, data, isLoading, error, reset } = usePlanDay()
+  const { mutate: updateTodo } = useUpdateTodo()
 
   const handlePlanDay = () => {
     const today = new Date().toISOString().split('T')[0]
@@ -37,6 +41,20 @@ export function DailyPlanCard({ lists }: DailyPlanCardProps) {
 
   const handleListChange = (value: string) => {
     setSelectedListId(value === 'all' ? undefined : value)
+  }
+
+  const handleToggleComplete = (taskId: string, isChecked: boolean) => {
+    if (isChecked) {
+      setCompletedTasks(prev => new Set(prev).add(taskId))
+      updateTodo({ id: taskId, status: 'COMPLETE' })
+    } else {
+      setCompletedTasks(prev => {
+        const next = new Set(prev)
+        next.delete(taskId)
+        return next
+      })
+      updateTodo({ id: taskId, status: 'PENDING' })
+    }
   }
 
   return (
@@ -102,30 +120,37 @@ export function DailyPlanCard({ lists }: DailyPlanCardProps) {
           <div className="space-y-3">
             <p className="text-sm text-muted-foreground">{data.summary}</p>
             <ul className="space-y-2" role="list">
-              {data.tasks.map((task, index) => (
-                <li
-                  key={task.taskId || index}
-                  className="flex items-start gap-3 rounded-md border p-3"
-                >
-                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
-                    {index + 1}
-                  </span>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium">{task.title}</p>
-                      <Badge variant="outline" className="text-xs">
-                        {task.priority}
-                      </Badge>
+              {data.tasks.map((task, index) => {
+                const isCompleted = completedTasks.has(task.taskId)
+                return (
+                  <li
+                    key={task.taskId || index}
+                    className="flex items-start gap-3 rounded-md border p-3"
+                  >
+                    <Checkbox
+                      checked={isCompleted}
+                      onCheckedChange={(checked) => handleToggleComplete(task.taskId, checked as boolean)}
+                      aria-label={`Mark "${task.title}" as ${isCompleted ? 'incomplete' : 'complete'}`}
+                    />
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <p className={`text-sm font-medium ${isCompleted ? 'line-through text-muted-foreground' : ''}`}>
+                          {task.title}
+                        </p>
+                        <Badge variant="outline" className="text-xs">
+                          {task.priority}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground">{task.reasoning}</p>
+                      {task.estimatedMinutes && (
+                        <p className="text-xs text-muted-foreground">
+                          ~{task.estimatedMinutes} min
+                        </p>
+                      )}
                     </div>
-                    <p className="text-xs text-muted-foreground">{task.reasoning}</p>
-                    {task.estimatedMinutes && (
-                      <p className="text-xs text-muted-foreground">
-                        ~{task.estimatedMinutes} min
-                      </p>
-                    )}
-                  </div>
-                </li>
-              ))}
+                  </li>
+                )
+              })}
             </ul>
           </div>
         )}

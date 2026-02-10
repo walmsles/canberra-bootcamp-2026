@@ -201,18 +201,46 @@ export function usePlanDay() {
 export function useRecommendTask() {
   const mutation = useMutation({
     mutationFn: async (params: { listId?: string }) => {
-      const resultData = await createAndWaitForJob('recommendTask', params)
-      
-      const result = parseTaskRecommendation(JSON.stringify(resultData))
-      if (!result.success) throw new Error(result.error)
-      return result.data
+      try {
+        console.log('recommendTask starting job...')
+        const resultData = await createAndWaitForJob('recommendTask', params)
+        
+        console.log('recommendTask raw resultData:', resultData)
+        console.log('recommendTask resultData type:', typeof resultData)
+        
+        // Extract data from wrapper { success: true, data: {...} }
+        const parsed = resultData as { success: boolean; data?: Record<string, unknown>; error?: string }
+        
+        console.log('recommendTask parsed:', parsed)
+        console.log('recommendTask parsed.success:', parsed.success)
+        console.log('recommendTask parsed.data:', parsed.data)
+        
+        if (!parsed.success) {
+          throw new Error(parsed.error || 'Agent returned an error')
+        }
+        
+        if (!parsed.data) {
+          throw new Error('Invalid response format from agent')
+        }
+        
+        const result = parseTaskRecommendation(JSON.stringify(parsed.data))
+        console.log('recommendTask parse result:', result)
+        
+        if (!result.success) throw new Error(result.error)
+        return result.data
+      } catch (error) {
+        console.error('recommendTask error:', error)
+        throw error
+      }
     },
   })
 
   return {
     recommend: (listId?: string) => {
       if (mutation.isPending) return
-      mutation.mutateAsync({ listId }).catch(() => {})
+      mutation.mutateAsync({ listId }).catch((err) => {
+        console.error('recommendTask mutation error:', err)
+      })
     },
     data: mutation.data ?? null,
     isLoading: mutation.isPending,

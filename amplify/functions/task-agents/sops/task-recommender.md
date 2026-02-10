@@ -59,25 +59,26 @@ Choose the single best task and 1-2 alternatives.
 Return a JSON response with the recommendation.
 
 **Output Format:**
-```json
-{
-  "recommendedTaskId": "abc-123",
-  "listId": "list-456",
-  "taskName": "Implement API endpoint",
-  "reasoning": "This is an urgent, high-priority task due today. Morning is ideal for this complex work.",
-  "alternatives": [
-    {
-      "taskId": "def-456",
-      "reason": "Also due today but lower complexity"
-    }
-  ],
-  "estimatedCompletion": "45 minutes"
-}
-```
+
+CRITICAL: Return ONLY the raw JSON object below. Do NOT add any markdown formatting, code fences, backticks, or explanatory text.
 
 **Constraints:**
-- You MUST return ONLY the raw JSON object — no markdown code fences, no backticks, no additional text before or after
-- Do NOT wrap the response in ```json``` or any other formatting
+- You MUST return ONLY the raw JSON object
+- Do NOT use triple backticks (```) anywhere in your response
+- Do NOT use the word "json" anywhere in your response
+- Do NOT add any text, explanation, or commentary before or after the JSON
+- Your ENTIRE response must be EXACTLY the JSON object and nothing else
+- If you add backticks or any other formatting, the system will FAIL
+
+**Example of CORRECT output (copy this format exactly):**
+{"recommendedTaskId": "abc-123", "listId": "list-456", "taskName": "Implement API endpoint", "reasoning": "This is an urgent, high-priority task due today. Morning is ideal for this complex work.", "alternatives": [{"taskId": "def-456", "reason": "Also due today but lower complexity"}], "estimatedCompletion": "45 minutes"}
+
+**Example of INCORRECT output (NEVER do this):**
+```json
+{"recommendedTaskId": "abc-123", ...}
+```
+
+**Field Constraints:**
 - `recommendedTaskId` MUST be a valid task ID from the fetched tasks
 - `listId` MUST be the list ID that the recommended task belongs to
 - `taskName` MUST match the recommended task's title
